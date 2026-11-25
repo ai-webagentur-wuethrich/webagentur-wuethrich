@@ -72,13 +72,19 @@ const initials = site.owner
     box-shadow: 0 0 0 1px var(--color-line-strong);
   }
 
+  /* Foto etwas verkleinert auf weissem Grund (= Hintergrundfarbe des Fotos):
+     mehr Luft über dem Kopf, Gesicht horizontal zentriert. */
+  .portrait__frame:has(:global(.portrait__img)) {
+    background: #f8f8fa;
+  }
+
   .portrait__frame :global(.portrait__img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 22%;
-    transform: scale(1.15);
-    transform-origin: 50% 35%;
+    object-position: 50% 0;
+    transform: translate(3.2%, 10%) scale(0.9);
+    transform-origin: 50% 0;
   }
 
   .portrait__initials {
