@@ -3,7 +3,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import { site } from '@/config/site';
 
-const { contact } = site;
+const { contact, hosting } = site;
 const agentur = `${site.name}, ${site.owner}, ${contact.street}, ${contact.postalCode} ${contact.city}`;
 ---
 
@@ -91,7 +91,13 @@ const agentur = `${site.name}, ${site.owner}, ${contact.street}, ${contact.posta
         Nachrichten aus dem Kontaktformular), tut sie dies nur im Auftrag und nach Weisung des
         Kunden, vertraulich und gemäss dem Schweizer Datenschutzgesetz (DSG). Der Kunde ist mit dem
         Einsatz des Hosting-Anbieters Hostinger (Serverstandort:
-        <span class="placeholder">[Serverstandort]</span>) einverstanden.
+        {
+          hosting.serverLocation ? (
+            hosting.serverLocation
+          ) : (
+            <span class="placeholder">[Serverstandort]</span>
+          )
+        }) einverstanden.
       </p>
 
       <h2><span class="agb__nr mono">10</span> Gewährleistung und Haftung</h2>

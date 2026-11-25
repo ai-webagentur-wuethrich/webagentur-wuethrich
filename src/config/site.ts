@@ -52,6 +52,16 @@ export const site = {
     { label: 'Impressum', href: '/impressum/' },
     { label: 'Datenschutz', href: '/datenschutz/' },
   ] satisfies NavItem[],
+  /** Hosting – für Datenschutzerklärung und AGB. */
+  hosting: {
+    provider: 'Hostinger International Ltd.',
+    providerSeat: 'Zypern',
+    /**
+     * PLATZHALTER: Rechenzentrum der eigenen Website, z. B. 'Deutschland (Frankfurt)'
+     * oder 'Litauen'. Zu finden in Hostinger hPanel → Websites → Dashboard / Plan-Details.
+     */
+    serverLocation: '',
+  },
   /** Kontaktformular (PHP-Skript auf Hostinger, siehe src/pages/kontakt-senden.php.ts). */
   form: {
     endpoint: '/kontakt-senden.php',

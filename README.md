@@ -38,6 +38,7 @@ Benötigt Node.js 22.23 oder neuer (siehe `.nvmrc`).
 | Texte der Landingpage        | `src/pages/index.astro`             |
 | AGB / Impressum / Datenschutz| `src/pages/agb.astro` usw.          |
 | Porträt                      | `src/assets/images/portrait.jpg`    |
+| Hosting / Serverstandort     | `src/config/site.ts` (`hosting`)    |
 
 ## Vor der Veröffentlichung
 
@@ -45,10 +46,9 @@ Benötigt Node.js 22.23 oder neuer (siehe `.nvmrc`).
    Damit wird auch das Kontaktformular aktiv.
 2. Bei Hostinger ein Postfach für die Absenderadresse `form.sender`
    (Standard: `website@webagentur-wuethrich.com`) anlegen.
-3. Platzhalter in Datenschutz und AGB ergänzen (Serverstandort Hostinger,
-   Aufbewahrungsdauer Logfiles, E-Mail-Anbieter). Platzhalter sind auf der
-   Website gelb markiert.
-4. Porträt als `src/assets/images/portrait.jpg` ablegen (ohne Foto erscheint ein Monogramm).
+3. Platzhalter in der Datenschutzerklärung ergänzen (Aufbewahrungsdauer
+   Logfiles, E-Mail-Anbieter). Platzhalter sind auf der Website gelb markiert.
+4. Serverstandort in `src/config/site.ts` (`hosting.serverLocation`) eintragen.
 
 ## Hosting auf Hostinger
 

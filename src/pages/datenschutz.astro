@@ -4,7 +4,7 @@ import PageHeader from '@/components/PageHeader.astro';
 import EmailLink from '@/components/EmailLink.astro';
 import { site, telHref } from '@/config/site';
 
-const { contact } = site;
+const { contact, hosting } = site;
 ---
 
 <BaseLayout
@@ -45,10 +45,18 @@ const { contact } = site;
 
       <h2>3. Hosting</h2>
       <p>
-        Diese Website wird bei Hostinger International Ltd. (Zypern) betrieben. Serverstandort:
-        <span class="placeholder">[Serverstandort]</span>. Hostinger bearbeitet die Daten als
-        Auftragsbearbeiter. Soweit Daten in einen Staat der EU/EWR übermittelt werden, verfügt
-        dieser nach Einschätzung des Bundesrats über einen angemessenen Datenschutz.
+        Diese Website wird bei {hosting.provider} ({hosting.providerSeat}) betrieben. Hostinger
+        unterhält Rechenzentren in Europa, Asien und Amerika; diese Website wird in einem
+        Rechenzentrum in
+        {
+          hosting.serverLocation ? (
+            hosting.serverLocation
+          ) : (
+            <span class="placeholder">[Serverstandort]</span>
+          )
+        } betrieben. Hostinger bearbeitet die Daten als Auftragsbearbeiter. Soweit Daten in einen
+        Staat der EU/EWR übermittelt werden, verfügt dieser nach Einschätzung des Bundesrats über
+        einen angemessenen Datenschutz.
       </p>
 
       <h2>4. Kontaktaufnahme und Kontaktformular</h2>
