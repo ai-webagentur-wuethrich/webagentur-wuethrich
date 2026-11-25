@@ -420,8 +420,8 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
     inset: 0;
     z-index: -2;
     background: radial-gradient(
-      26rem circle at var(--mx, 70%) var(--my, 40%),
-      rgb(200 241 105 / 0.2),
+      var(--spot-size, 26rem) circle at var(--mx, 70%) var(--my, 40%),
+      rgb(200 241 105 / var(--spot-alpha, 0.2)),
       transparent 70%
     );
     mix-blend-mode: color-dodge;
@@ -577,6 +577,12 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
   @media (max-width: 61.99rem) {
     .hero__media :global(.hero__img) {
       object-position: 82% 40%;
+    }
+
+    /* Kleinerer Lichtkegel für den Finger */
+    .hero__light {
+      --spot-size: 15rem;
+      --spot-alpha: 0.32;
     }
 
     /* Handy: Text unten, Höhenlinien darüber sichtbar */

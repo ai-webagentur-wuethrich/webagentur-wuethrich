@@ -2,9 +2,8 @@
 /**
  * Dezente Hightech-Effekte für die ganze Website (ein kleines Skript, keine Bibliothek):
  * – [data-scramble]: Text «entschlüsselt» sich beim Erscheinen (Zeichen-Rauschen → Klartext)
- * – [data-spotlight]: Lichtkegel folgt dem Mauszeiger (setzt --mx / --my)
- * Alles wird bei «weniger Bewegung» (prefers-reduced-motion) und auf Touch-Geräten
- * (Spotlight) übersprungen. Inhalte bleiben ohne JavaScript vollständig sichtbar.
+ * – [data-spotlight]: Lichtkegel folgt Mauszeiger oder Finger (setzt --mx / --my)
+ * Alles wird bei «weniger Bewegung» (prefers-reduced-motion) übersprungen. Inhalte bleiben ohne JavaScript vollständig sichtbar.
  */
 ---
 
@@ -65,21 +64,52 @@
     scrambleTargets.forEach((el) => observer.observe(el));
   }
 
-  // ---------- Spotlight (nur mit Maus) ----------
-  if (!reduce && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  // ---------- Spotlight: folgt Maus (Desktop) oder Finger (Handy) ----------
+  if (!reduce) {
     const spots = document.querySelectorAll<HTMLElement>('[data-spotlight]');
+    const hasMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    const place = (el: HTMLElement, x: number, y: number) => {
+      const rect = el.getBoundingClientRect();
+      el.style.setProperty('--mx', `${x - rect.left}px`);
+      el.style.setProperty('--my', `${y - rect.top}px`);
+    };
+
     spots.forEach((el) => {
       let raf = 0;
-      el.addEventListener('pointermove', (event) => {
+      let fade = 0;
+
+      if (hasMouse) {
+        el.addEventListener('pointermove', (event) => {
+          if (event.pointerType !== 'mouse') return;
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            place(el, event.clientX, event.clientY);
+            el.classList.add('is-lit');
+          });
+        });
+        el.addEventListener('pointerleave', () => el.classList.remove('is-lit'));
+      }
+
+      // Touch: Antippen und Wischen (passiv, damit das Scrollen flüssig bleibt)
+      const onTouch = (event: TouchEvent) => {
+        const touch = event.touches[0];
+        if (!touch) return;
+        clearTimeout(fade);
         cancelAnimationFrame(raf);
         raf = requestAnimationFrame(() => {
-          const rect = el.getBoundingClientRect();
-          el.style.setProperty('--mx', `${event.clientX - rect.left}px`);
-          el.style.setProperty('--my', `${event.clientY - rect.top}px`);
+          place(el, touch.clientX, touch.clientY);
           el.classList.add('is-lit');
         });
-      });
-      el.addEventListener('pointerleave', () => el.classList.remove('is-lit'));
+      };
+      const onTouchEnd = () => {
+        clearTimeout(fade);
+        fade = window.setTimeout(() => el.classList.remove('is-lit'), 700);
+      };
+      el.addEventListener('touchstart', onTouch, { passive: true });
+      el.addEventListener('touchmove', onTouch, { passive: true });
+      el.addEventListener('touchend', onTouchEnd, { passive: true });
+      el.addEventListener('touchcancel', onTouchEnd, { passive: true });
     });
   }
 </script>
