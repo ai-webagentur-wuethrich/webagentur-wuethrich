@@ -41,37 +41,33 @@ const active = Boolean(site.contact.email);
         <p class="field__error" id="name-error"></p>
       </div>
       <div class="field">
-        <label for="company">Firma <span class="field__optional">(optional)</span></label>
-        <input id="company" name="company" type="text" autocomplete="organization" maxlength="120" />
+        <label for="email">E-Mail <span class="field__req" aria-hidden="true">*</span></label>
+        <input id="email" name="email" type="email" autocomplete="email" required maxlength="160" aria-describedby="email-error" />
+        <p class="field__error" id="email-error"></p>
       </div>
     </div>
 
     <div class="form__row">
       <div class="field">
-        <label for="email">E-Mail <span class="field__req" aria-hidden="true">*</span></label>
-        <input id="email" name="email" type="email" autocomplete="email" required maxlength="160" aria-describedby="email-error" />
-        <p class="field__error" id="email-error"></p>
-      </div>
-      <div class="field">
         <label for="phone">Telefon <span class="field__optional">(optional)</span></label>
         <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" />
       </div>
-    </div>
 
-    <div class="field">
-      <label for="topic">Interesse</label>
-      <select id="topic" name="topic" data-topic>
-        <option value="Noch unklar – Beratung gewünscht">Noch unklar – Beratung</option>
-        {
-          packages.map((pkg) => (
-            <option value={`Website ${pkg.name}`} data-package={pkg.id}>
-              Website {pkg.name} (CHF {chf(pkg.price)})
-            </option>
-          ))
-        }
-        <option value="Hosting / Betreuung">Hosting / Betreuung</option>
-        <option value="Änderung an bestehender Website">Änderung an bestehender Website</option>
-      </select>
+      <div class="field">
+        <label for="topic">Interesse</label>
+        <select id="topic" name="topic" data-topic>
+          <option value="Noch unklar – Beratung gewünscht">Noch unklar – Beratung</option>
+          {
+            packages.map((pkg) => (
+              <option value={`Website ${pkg.name}`} data-package={pkg.id}>
+                Website {pkg.name} (CHF {chf(pkg.price)})
+              </option>
+            ))
+          }
+          <option value="Hosting / Betreuung">Hosting / Betreuung</option>
+          <option value="Änderung an bestehender Website">Änderung an bestehender Website</option>
+        </select>
+      </div>
     </div>
 
     <div class="field">
@@ -79,15 +75,13 @@ const active = Boolean(site.contact.email);
       <textarea
         id="message"
         name="message"
-        rows="6"
+        rows="4"
         required
         minlength="10"
         maxlength="4000"
-        aria-describedby="message-hint message-error"
+        aria-describedby="message-error"
+        placeholder="Kurz: Branche, gewünschte Seiten, bestehende Website …"
       ></textarea>
-      <p class="field__hint" id="message-hint">
-        Zum Beispiel: Branche, gewünschte Seiten, bestehende Website, Zeitrahmen.
-      </p>
       <p class="field__error" id="message-error"></p>
     </div>
 
@@ -99,8 +93,8 @@ const active = Boolean(site.contact.email);
     <input type="hidden" name="ts" value="" data-ts />
 
     <p class="form__privacy">
-      Ihre Angaben verwende ich ausschliesslich zur Bearbeitung Ihrer Anfrage. Mehr dazu in der
-      <a href="/datenschutz/">Datenschutzerklärung</a>. Felder mit * sind Pflichtfelder.
+      Ihre Angaben dienen nur der Bearbeitung Ihrer Anfrage
+      (<a href="/datenschutz/">Datenschutz</a>). * Pflichtfeld
     </p>
 
     <div class="form__submit">
@@ -289,9 +283,14 @@ const active = Boolean(site.contact.email);
     background-repeat: no-repeat;
   }
 
+  ::placeholder {
+    color: var(--color-text-faint);
+    opacity: 1;
+  }
+
   textarea {
     resize: vertical;
-    min-height: 9rem;
+    min-height: 7rem;
   }
 
   input:hover,

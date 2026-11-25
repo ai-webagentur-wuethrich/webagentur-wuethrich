@@ -8,23 +8,24 @@
 /* ---------- Design-Tokens ---------- */
 :root {
   /* Farben (Kontraste WCAG AA geprüft, siehe README) */
-  --color-bg: #0a0c10;
-  --color-bg-raised: #10141a;
-  --color-bg-elev: #161b23;
-  --color-line: #232a34;
-  --color-line-strong: #36404d;
-  --color-text: #e9edf1;
-  --color-text-soft: #a3aebb;
-  --color-text-faint: #7b8794;
+  --color-bg: #131922;
+  --color-bg-raised: #19202a;
+  --color-bg-elev: #1f2733;
+  --color-line: #2b3441;
+  --color-line-strong: #3f4a59;
+  --color-text: #eef1f4;
+  --color-text-soft: #b0bac6;
+  --color-text-faint: #8d98a6;
   --color-accent: #c8f169;
   --color-accent-hover: #d8fa8b;
-  --color-on-accent: #0a0c10;
+  --color-on-accent: #131922;
   --color-error: #ff8a80;
   /* Helle Flächen (sparsam eingesetzt) */
-  --color-paper: #eef0ea;
-  --color-ink: #0a0c10;
-  --color-ink-soft: #48525e;
-  --color-paper-line: #d3d8cf;
+  --color-paper: #f3f4f0;
+  --color-paper-raised: #ffffff;
+  --color-ink: #131922;
+  --color-ink-soft: #4a5562;
+  --color-paper-line: #dadcd4;
   --color-accent-ink: #3d5a00;
 
   /* Typografie (--font-sans / --font-mono werden von Astro Fonts gesetzt) */
@@ -328,6 +329,13 @@ main:focus {
     align-items: end;
     gap: var(--space-2xl);
   }
+}
+
+/* Akzent auf hellem Grund: dunkle Schrift mit Leuchtmarker statt hellgrüner Schrift */
+.surface-paper .accent {
+  color: var(--color-ink);
+  background: linear-gradient(transparent 62%, var(--color-accent) 62%, var(--color-accent) 92%, transparent 92%);
+  padding-inline: 0.05em;
 }
 
 /* Feines Raster im Hintergrund (rein dekorativ) */

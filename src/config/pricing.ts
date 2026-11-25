@@ -8,10 +8,7 @@ export interface Package {
   id: string;
   name: string;
   price: number;
-  /** Preis mit 20 % Referenzrabatt. */
-  referencePrice: number;
   pages: string;
-  summary: string;
   features: string[];
   recommended?: boolean;
 }
@@ -23,51 +20,35 @@ export const packages: Package[] = [
     id: 'start',
     name: 'Start',
     price: 790,
-    referencePrice: 632,
     pages: 'bis 4 Seiten',
-    summary: 'Für den professionellen ersten Auftritt im Netz.',
-    features: ['Bis 4 Seiten', 'Kontaktangaben mit Klick-zum-Anrufen'],
+    features: ['Bis 4 Seiten', 'Kontaktangaben'],
   },
   {
     id: 'standard',
     name: 'Standard',
     price: 1190,
-    referencePrice: 952,
     pages: 'bis 8 Seiten',
-    summary: 'Die Website, die Anfragen bringt – mit Texten und regionaler Google-Optimierung.',
-    features: [
-      'Bis 8 Seiten',
-      'Kontaktformular',
-      'Regionale Google-Optimierung',
-      'Texte inklusive',
-    ],
+    features: ['Bis 8 Seiten', 'Kontaktformular', 'Regionale Google-Optimierung', 'Texte inklusive'],
     recommended: true,
   },
   {
     id: 'premium',
     name: 'Premium',
     price: 1790,
-    referencePrice: 1432,
     pages: 'bis 15 Seiten',
-    summary: 'Für Betriebe, die Projekte zeigen und mehr Funktionen brauchen.',
-    features: [
-      'Bis 15 Seiten',
-      'Kontaktformular',
-      'Projekte / Galerie',
-      '2 Zusatzfunktionen inklusive',
-    ],
+    features: ['Bis 15 Seiten', 'Kontaktformular', 'Projekte / Galerie', '2 Zusatzfunktionen inklusive'],
   },
 ];
 
-/** In allen Paketen enthalten. */
+/** In allen Paketen enthalten (kurze Stichworte). */
 export const included = [
   'Individuelles Design',
-  'Für Smartphone optimiert',
+  'Smartphone-optimiert',
   'Schnelle Ladezeiten',
-  'Sicher und nach aktuellem Stand aufgebaut',
-  'Grundlagen für Google (SEO)',
+  'Sicher aufgebaut',
+  'SEO-Grundlagen',
   'Lizenzierte Bilder',
-  'Impressum und Datenschutzerklärung (zählen nicht als Seite)',
+  'Impressum & Datenschutz',
   '2 Korrekturrunden',
 ];
 
@@ -89,7 +70,6 @@ export interface MonthlyPlan {
   monthly: number;
   yearly: number;
   description: string;
-  features: string[];
   recommended?: boolean;
 }
 
@@ -99,20 +79,14 @@ export const monthlyPlans: MonthlyPlan[] = [
     name: 'Hosting',
     monthly: 19,
     yearly: 209,
-    description: 'Ihre Website bleibt online, sicher und gesichert.',
-    features: ['Hosting', 'Domain', 'SSL-Verschlüsselung', 'Automatische Backups', 'Keine Änderungen inklusive'],
+    description: 'Hosting, Domain, SSL und automatische Backups.',
   },
   {
     id: 'betreuung',
     name: 'Betreuung',
     monthly: 39,
     yearly: 429,
-    description: 'Wie Hosting – plus laufende Änderungen und Anpassungen.',
-    features: [
-      'Alles aus Hosting',
-      'Bis 30 Minuten Änderungen pro Monat (nicht übertragbar)',
-      'Anpassungen bei Datenschutz-Änderungen',
-    ],
+    description: 'Wie Hosting – plus bis 30 Minuten Änderungen pro Monat.',
     recommended: true,
   },
 ];

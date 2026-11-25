@@ -19,7 +19,7 @@ export const site = {
   /** false = echte Website: indexierbar, LocalBusiness-Schema aktiv, keine Demo-Hinweise. */
   isDemo: false,
   /** Neuer Dateiname bei jeder Änderung des Vorschaubilds (Zwischenspeicher von WhatsApp & Co.). */
-  defaultOgImage: '/og-webagentur-wuethrich-v1.jpg',
+  defaultOgImage: '/og-webagentur-wuethrich-v2.jpg',
   contact: {
     /**
      * Öffentliche E-Mail-Adresse, zugleich Empfänger des Kontaktformulars.
@@ -36,7 +36,7 @@ export const site = {
     country: 'CH',
     countryName: 'Schweiz',
   },
-  /** Koordinaten von Riehen (Gemeinde), dekorativ im Hero verwendet. */
+  /** Koordinaten von Riehen (Gemeinde) – für strukturierte Daten (Google). */
   geo: { lat: 47.5788, lng: 7.6468 },
   serviceArea: ['Riehen', 'Basel', 'Region Basel', 'Nordwestschweiz', 'Deutschschweiz'],
   /** Landingpage: Navigation springt zu den Bereichen der Startseite. */

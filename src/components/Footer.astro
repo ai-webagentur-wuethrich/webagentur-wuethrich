@@ -21,21 +21,6 @@ const year = new Date().getFullYear();
 
       <div class="site-footer__cols">
         <div>
-          <h2 class="site-footer__title mono">Seiten</h2>
-          <ul role="list" class="site-footer__list">
-            <li><a href="/">Startseite</a></li>
-            {
-              site.nav.map((item) => (
-                <li>
-                  <a href={item.href}>{item.label}</a>
-                </li>
-              ))
-            }
-            <li><a href="/#kontakt">Kontakt</a></li>
-          </ul>
-        </div>
-
-        <div>
           <h2 class="site-footer__title mono">Kontakt</h2>
           <address class="site-footer__address">
             {site.name}<br />
@@ -75,7 +60,6 @@ const year = new Date().getFullYear();
     <div class="site-footer__bottom">
       <p class="mono">© {year} {site.name}</p>
       <p class="mono site-footer__meta">
-        Gebaut mit Astro · ohne Tracking-Cookies
         <a href="#inhalt" class="site-footer__top-link">
           Nach oben <ArrowUpRight size={14} aria-hidden="true" />
         </a>
@@ -121,10 +105,8 @@ const year = new Date().getFullYear();
     gap: var(--space-xl);
   }
 
-  @media (min-width: 36rem) {
-    .site-footer__cols {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+  .site-footer__cols {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   }
 
   .site-footer__title {

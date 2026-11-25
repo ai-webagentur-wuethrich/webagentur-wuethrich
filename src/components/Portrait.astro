@@ -28,7 +28,7 @@ const initials = site.owner
           src={photo}
           alt={`Porträt von ${site.owner}, Inhaber der ${site.name}`}
           widths={[220, 440, 660, 880]}
-          sizes="(min-width: 62rem) 13.75rem, 11rem"
+          sizes="(min-width: 62rem) 13.75rem, 9rem"
           quality={85}
           class="portrait__img"
         />
@@ -56,7 +56,7 @@ const initials = site.owner
 
   .portrait__frame,
   .portrait__ring {
-    width: clamp(11rem, 9rem + 6vw, 13.75rem);
+    width: clamp(9rem, 6rem + 8vw, 13.75rem);
     aspect-ratio: 1;
     border-radius: 50%;
   }
@@ -98,7 +98,7 @@ const initials = site.owner
     position: absolute;
     top: 0;
     left: 50%;
-    width: calc(clamp(11rem, 9rem + 6vw, 13.75rem) + 1.5rem);
+    width: calc(clamp(9rem, 6rem + 8vw, 13.75rem) + 1.5rem);
     translate: -50% 0;
     border: 1px dashed var(--color-line-strong);
     background: conic-gradient(from 0deg, var(--color-accent) 0deg 38deg, transparent 38deg 360deg);
@@ -111,6 +111,20 @@ const initials = site.owner
     to {
       rotate: 360deg;
     }
+  }
+
+  /* Auf hellem Hintergrund */
+  :global(.surface-paper) .portrait__frame {
+    box-shadow: 0 0 0 1px var(--color-paper-line), 0 1.5rem 3rem -1.5rem rgb(19 25 34 / 0.35);
+  }
+
+  :global(.surface-paper) .portrait__ring {
+    border-color: var(--color-paper-line);
+    background: conic-gradient(from 0deg, var(--color-accent-ink) 0deg 38deg, transparent 38deg 360deg);
+  }
+
+  :global(.surface-paper) .portrait__role {
+    color: var(--color-ink-soft);
   }
 
   .portrait__caption {

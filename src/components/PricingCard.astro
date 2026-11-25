@@ -1,18 +1,16 @@
 ---
 /**
- * Preiskarte für ein Website-Paket (Startseite und Preisseite).
+ * Preiskarte für ein Website-Paket (kompakt: Name, Preis, Umfang, Anfrage).
  */
 import { ArrowRight } from '@lucide/astro';
-import { type Package, chf, referenceDiscount } from '@/config/pricing';
+import { type Package, chf } from '@/config/pricing';
 
 export interface Props {
   pkg: Package;
-  /** Ausführliche Variante mit Referenzpreis. */
-  detailed?: boolean;
   index: number;
 }
 
-const { pkg, detailed = false, index } = Astro.props;
+const { pkg, index } = Astro.props;
 ---
 
 <article
@@ -23,24 +21,14 @@ const { pkg, detailed = false, index } = Astro.props;
   style={`--reveal-delay: ${index * 90}ms`}
 >
   <header class="price-card__head">
-    <p class="price-card__index mono" aria-hidden="true">0{index + 1}</p>
+    <h3 id={`paket-${pkg.id}`} class="price-card__name">{pkg.name}</h3>
     {pkg.recommended && <p class="price-card__badge mono">Empfohlen</p>}
   </header>
-  <h3 id={`paket-${pkg.id}`} class="price-card__name">{pkg.name}</h3>
-  <p class="price-card__summary">{pkg.summary}</p>
 
   <p class="price-card__price">
     <span class="price-card__currency mono">CHF</span>
     <span class="price-card__amount">{chf(pkg.price)}</span>
-    <span class="price-card__unit mono">einmalig</span>
   </p>
-  {
-    detailed && (
-      <p class="price-card__ref mono">
-        Mit {referenceDiscount} % Referenzrabatt: CHF {chf(pkg.referencePrice)}
-      </p>
-    )
-  }
 
   <ul class="check-list price-card__features">
     {pkg.features.map((feature) => <li>{feature}</li>)}
@@ -52,23 +40,20 @@ const { pkg, detailed = false, index } = Astro.props;
     class:list={['btn', pkg.recommended ? 'btn--primary' : 'btn--ghost', 'price-card__cta']}
     aria-label={`Paket ${pkg.name} anfragen`}
   >
-    {pkg.name} anfragen <ArrowRight size={16} aria-hidden="true" />
+    Anfragen <ArrowRight size={16} aria-hidden="true" />
   </a>
 </article>
 
 <style>
   .price-card {
-    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--space-md);
-    padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
+    padding: clamp(1.4rem, 1rem + 1vw, 2rem);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
     background: var(--color-bg-raised);
-    transition:
-      border-color var(--duration-base) ease,
-      transform var(--duration-base) var(--ease-out);
+    transition: border-color var(--duration-base) ease;
   }
 
   .price-card:hover {
@@ -78,7 +63,7 @@ const { pkg, detailed = false, index } = Astro.props;
   .price-card--featured {
     border-color: rgb(200 241 105 / 0.55);
     background:
-      linear-gradient(180deg, rgb(200 241 105 / 0.07), transparent 45%),
+      linear-gradient(180deg, rgb(200 241 105 / 0.08), transparent 45%),
       var(--color-bg-elev);
   }
 
@@ -90,12 +75,12 @@ const { pkg, detailed = false, index } = Astro.props;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    min-height: 1.6rem;
+    gap: var(--space-sm);
   }
 
-  .price-card__index {
-    font-size: var(--text-2xs);
-    color: var(--color-text-faint);
+  .price-card__name {
+    font-size: var(--text-lg);
+    letter-spacing: -0.02em;
   }
 
   .price-card__badge {
@@ -103,55 +88,36 @@ const { pkg, detailed = false, index } = Astro.props;
     border-radius: 2rem;
     background: var(--color-accent);
     color: var(--color-on-accent);
-    font-size: var(--text-2xs);
+    font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
-  .price-card__name {
-    font-size: var(--text-xl);
-    letter-spacing: -0.03em;
-  }
-
-  .price-card__summary {
-    color: var(--color-text-soft);
-    font-size: var(--text-sm);
-    min-height: 3em;
-  }
-
   .price-card__price {
     display: flex;
     align-items: baseline;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: var(--space-sm);
-    padding-top: var(--space-lg);
-    border-top: 1px solid var(--color-line);
+    gap: 0.45rem;
   }
 
-  .price-card__currency,
-  .price-card__unit {
+  .price-card__currency {
     font-size: var(--text-xs);
     color: var(--color-text-soft);
   }
 
   .price-card__amount {
-    font-size: clamp(2.6rem, 2rem + 2vw, 3.4rem);
+    font-size: clamp(2.4rem, 2rem + 1.5vw, 3rem);
     font-weight: 560;
     letter-spacing: -0.045em;
     line-height: 1;
     font-variant-numeric: tabular-nums;
   }
 
-  .price-card__ref {
-    font-size: var(--text-2xs);
-    color: var(--color-accent);
-  }
-
   .price-card__features {
-    margin-block: var(--space-md) var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-line);
     font-size: var(--text-sm);
+    gap: 0.5rem;
   }
 
   .price-card__cta {

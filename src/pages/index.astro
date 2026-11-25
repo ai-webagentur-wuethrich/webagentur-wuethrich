@@ -1,14 +1,24 @@
 ---
 /**
- * Landingpage: alle Inhalte auf einer Seite.
- * Bereiche: Hero · Prinzipien · Leistungen · Preise · Demo · Über mich · Ablauf · Kontakt
+ * Landingpage: alle Inhalte auf einer Seite, bewusst knapp gehalten.
+ * Bereiche: Hero · Leistungen · Preise · Demo · Über mich · Kontakt
  */
 import { Picture } from 'astro:assets';
-import { ArrowRight, ArrowDown, ArrowUpRight, Phone, Mail, MapPin, Plus } from '@lucide/astro';
+import {
+  ArrowRight,
+  ArrowDown,
+  ArrowUpRight,
+  Phone,
+  Mail,
+  Plus,
+  PenTool,
+  Search,
+  Gauge,
+  LifeBuoy,
+} from '@lucide/astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import LiveMetrics from '@/components/LiveMetrics.astro';
 import PricingCard from '@/components/PricingCard.astro';
-import ProcessSteps from '@/components/ProcessSteps.astro';
 import DeviceMockup from '@/components/DeviceMockup.astro';
 import Portrait from '@/components/Portrait.astro';
 import ContactForm from '@/components/ContactForm.astro';
@@ -28,28 +38,7 @@ import heroImage from '@/assets/images/hero-hoehenlinien.png';
 import demoDesktop from '@/assets/images/demo-lindenmatt-desktop.png';
 import demoMobile from '@/assets/images/demo-lindenmatt-mobil.png';
 
-const principles = [
-  {
-    key: 'Schnell',
-    title: 'Lädt in einem Wimpernschlag',
-    text: 'Optimierte Bilder, lokale Schriften und kaum JavaScript. Ihre Besucher warten nicht – auch nicht im Mobilnetz.',
-  },
-  {
-    key: 'Gefunden',
-    title: 'Gebaut für Google',
-    text: 'Saubere Struktur, passende Seitentitel, strukturierte Daten und regionale Suchbegriffe – damit Kunden Sie finden.',
-  },
-  {
-    key: 'Sicher',
-    title: 'Nach aktuellem Stand',
-    text: 'HTTPS, Sicherheits-Header, Spamschutz und keine unnötigen Tracker. Datenschutz nach Schweizer DSG mitgedacht.',
-  },
-  {
-    key: 'Mobil',
-    title: 'Zuerst fürs Smartphone',
-    text: 'Die meisten Besucher kommen übers Handy. Deshalb entsteht jede Website zuerst für den kleinen Bildschirm.',
-  },
-];
+const serviceIcons = { design: PenTool, seo: Search, speed: Gauge, care: LifeBuoy };
 
 const ticker = [
   'Astro',
@@ -64,21 +53,13 @@ const ticker = [
   'Keine Tracker',
 ];
 
-const reasons = [
-  { key: 'Sauber', text: 'Kein Baukasten, kein Plugin-Wirrwarr – klarer, moderner Code, der sich später leicht erweitern lässt.' },
-  { key: 'Sicher', text: 'HTTPS, Sicherheits-Header, Spamschutz und aktuelle Komponenten. Keine Daten-Sammler.' },
-  { key: 'SEO', text: 'Seitentitel, Struktur und strukturierte Daten sind von Anfang an eingebaut – nicht angeflickt.' },
-  { key: 'Tempo', text: 'Best Practice bei Bildern, Schriften und Code. Ladezeiten werden gemessen, nicht geschätzt.' },
-  { key: 'Preis', text: 'Faire Fixpreise ab CHF 790, transparent und ohne versteckte Gebühren.' },
-  { key: 'Service', text: 'Ein direkter Ansprechpartner, den Sie anrufen können – verständlich, ohne Fachchinesisch.' },
-];
+const values = ['Sauber programmiert', 'Sicher aufgesetzt', 'Persönlich erreichbar'];
+const steps = ['Anfrage', 'Offerte', 'Entwurf', 'Online'];
 
 const { contact } = site;
 const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSchema(Astro.site)].filter(
   (entry): entry is NonNullable<typeof entry> => entry !== null,
 );
-const lat = site.geo.lat.toFixed(4);
-const lng = site.geo.lng.toFixed(4);
 ---
 
 <BaseLayout
@@ -107,12 +88,6 @@ const lng = site.geo.lng.toFixed(4);
     <div class="hero__scan" aria-hidden="true"></div>
 
     <div class="container hero__inner">
-      <p class="hero__coords mono" aria-hidden="true">
-        <span data-scramble data-scramble-delay="500">{lat}° N</span>
-        <span data-scramble data-scramble-delay="650">{lng}° E</span>
-        <span class="hero__coords-place">Riehen · Basel</span>
-      </p>
-
       <div class="hero__content">
         <p class="eyebrow hero__eyebrow">
           <span data-scramble data-scramble-delay="200">Webagentur für Schweizer KMU</span>
@@ -121,8 +96,8 @@ const lng = site.geo.lng.toFixed(4);
           Websites, die <em>schnell laden</em> und gefunden werden.
         </h1>
         <p class="lead hero__lead">
-          Für Handwerksbetriebe, Dienstleister und lokale Unternehmen: individuell gestaltet,
-          sauber programmiert und für Google optimiert – zum Fixpreis ab CHF 790.
+          Individuell gestaltet, sauber programmiert und für Google optimiert – zum Fixpreis ab
+          CHF 790.
         </p>
         <div class="hero__actions">
           <a href="#kontakt" class="btn btn--lg">
@@ -136,7 +111,7 @@ const lng = site.geo.lng.toFixed(4);
         <LiveMetrics />
       </div>
 
-      <a href="#prinzipien" class="hero__scroll mono">
+      <a href="#leistungen" class="hero__scroll mono">
         <ArrowDown size={14} aria-hidden="true" /> Mehr erfahren
       </a>
     </div>
@@ -152,68 +127,35 @@ const lng = site.geo.lng.toFixed(4);
     </ul>
   </div>
 
-  <!-- ================= Prinzipien ================= -->
-  <section id="prinzipien" class="section grid-bg" aria-labelledby="prinzipien-title">
-    <div class="container">
-      <div class="section-head section-head--split" data-reveal>
-        <div>
-          <p class="eyebrow"><span data-scramble>Worauf ich achte</span></p>
-          <h2 id="prinzipien-title" class="h2 head-gap">
-            Gut aussehen reicht nicht. Ihre Website muss <span class="accent">arbeiten.</span>
-          </h2>
-        </div>
-        <p class="lead">
-          Hinter jeder Website stecken Entscheidungen, die man nicht sieht, aber merkt: wie schnell
-          sie lädt, ob Google sie versteht und ob Ihre Kunden Sie auf dem Handy erreichen.
-        </p>
-      </div>
-
-      <ul class="principles" role="list">
-        {
-          principles.map((item, index) => (
-            <li class="principle spot" data-spotlight data-reveal style={`--reveal-delay: ${index * 90}ms`}>
-              <p class="principle__key mono">
-                <span aria-hidden="true">0{index + 1} / </span>
-                {item.key}
-              </p>
-              <h3 class="principle__title">{item.title}</h3>
-              <p class="principle__text">{item.text}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
   <!-- ================= Leistungen ================= -->
-  <section id="leistungen" class="section section--raised" aria-labelledby="leistungen-title">
+  <section id="leistungen" class="section surface-paper" aria-labelledby="leistungen-title">
     <div class="container">
       <div class="section-head section-head--split" data-reveal>
         <div>
           <p class="eyebrow"><span data-scramble>Leistungen</span></p>
           <h2 id="leistungen-title" class="h2 head-gap">
-            Alles aus einer Hand – vom Design bis zur Betreuung.
+            Alles, was Ihre Website <span class="accent">braucht.</span>
           </h2>
         </div>
-        <p class="lead">
-          Sie haben einen Ansprechpartner für Ihre ganze Website. Kein Weiterreichen, keine
-          Fachsprache, keine Überraschungen bei der Rechnung.
-        </p>
+        <p class="lead">Ein Ansprechpartner – vom ersten Entwurf bis zur laufenden Betreuung.</p>
       </div>
 
-      <ol class="service-rows" role="list">
+      <ul class="services" role="list">
         {
-          services.map((service, index) => (
-            <li class="service-row" data-reveal style={`--reveal-delay: ${index * 60}ms`}>
-              <span class="service-row__index mono" aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <h3 class="service-row__title">{service.title}</h3>
-              <p class="service-row__text">{service.description}</p>
-            </li>
-          ))
+          services.map((service, index) => {
+            const Icon = serviceIcons[service.icon];
+            return (
+              <li class="service" data-reveal style={`--reveal-delay: ${index * 80}ms`}>
+                <span class="service__icon" aria-hidden="true">
+                  <Icon size={22} />
+                </span>
+                <h3 class="service__title">{service.title}</h3>
+                <p class="service__text">{service.text}</p>
+              </li>
+            );
+          })
         }
-      </ol>
+      </ul>
     </div>
   </section>
 
@@ -226,109 +168,94 @@ const lng = site.geo.lng.toFixed(4);
           <h2 id="preise-title" class="h2 head-gap">Fixpreise statt Stundenrapport.</h2>
         </div>
         <div class="preise-head__text">
-          <p class="lead">
-            Sie wissen von Anfang an, was Ihre Website kostet. Alle Preise in CHF, nicht
-            MWST-pflichtig.
-          </p>
+          <p class="lead">Einmalig, in CHF, nicht MWST-pflichtig.</p>
           <p class="preise-head__ref mono">
             <span class="preise-head__ref-tag">−{referenceDiscount} %</span>
-            <span>Referenzrabatt für die ersten Kundinnen und Kunden</span>
+            <span>für die ersten Kundinnen und Kunden</span>
           </p>
         </div>
       </div>
 
-      <div class="price-grid">
-        {packages.map((pkg, index) => <PricingCard pkg={pkg} index={index} detailed />)}
+      <div class="price-grid" role="region" aria-label="Website-Pakete" tabindex="0" data-price-scroller>
+        {packages.map((pkg, index) => <PricingCard pkg={pkg} index={index} />)}
       </div>
+      <p class="swipe-hint mono" aria-hidden="true">← Wischen für alle Pakete →</p>
 
       <div class="included" data-reveal>
-        <h3 class="included__title">In allen Paketen enthalten</h3>
-        <ul class="check-list included__list">
+        <p class="included__label mono">Immer inklusive</p>
+        <ul class="included__list" role="list">
           {included.map((item) => <li>{item}</li>)}
         </ul>
       </div>
 
-      <div class="extras">
-        <div class="extras__block" data-reveal>
-          <h3 class="extras__title">
-            <span class="mono extras__label">Zusatzfunktionen</span>
-            Erweitern, wenn Sie es brauchen
-          </h3>
-          <table class="price-table">
-            <caption class="visually-hidden">Zusatzfunktionen und Preise in CHF</caption>
-            <thead>
-              <tr>
-                <th scope="col">Zusatz</th>
-                <th scope="col" class="num">CHF</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                addons.map((addon) => (
-                  <tr>
-                    <th scope="row">
-                      <Plus size={14} aria-hidden="true" class="price-table__icon" />
-                      {addon.name}
-                    </th>
-                    <td class="num mono">{addon.price}</td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-          <p class="extras__note">Im Paket Premium sind zwei Zusatzfunktionen inklusive.</p>
-        </div>
-
-        <div class="extras__block" data-reveal style="--reveal-delay: 100ms">
-          <h3 class="extras__title">
-            <span class="mono extras__label">Monatliche Pakete</span>
-            Online bleiben, ohne Technik-Sorgen
-          </h3>
-          <div class="plans">
-            {
-              monthlyPlans.map((plan) => (
-                <article
-                  class:list={['plan', 'spot', { 'plan--featured': plan.recommended }]}
-                  aria-labelledby={`plan-${plan.id}`}
-                  data-spotlight
-                >
-                  <div class="plan__head">
-                    <h4 id={`plan-${plan.id}`} class="plan__name">
-                      {plan.name}
-                    </h4>
-                    {plan.recommended && <p class="plan__badge mono">Empfohlen</p>}
-                  </div>
-                  <p class="plan__price">
-                    <span class="plan__currency mono">CHF</span>
-                    <span class="plan__amount">{plan.monthly}</span>
-                    <span class="plan__unit mono">/ Monat</span>
-                  </p>
-                  <p class="plan__yearly mono">oder CHF {chf(plan.yearly)} / Jahr – 1 Monat gratis</p>
-                  <ul class="check-list plan__features">
-                    {plan.features.map((feature) => (
-                      <li>{feature}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))
-            }
-          </div>
+      <div class="plans" data-reveal>
+        <p class="included__label mono">Nach dem Start, optional</p>
+        <div class="plans__grid">
+          {
+            monthlyPlans.map((plan) => (
+              <article
+                class:list={['plan', { 'plan--featured': plan.recommended }]}
+                aria-labelledby={`plan-${plan.id}`}
+              >
+                <h3 id={`plan-${plan.id}`} class="plan__name">
+                  {plan.name}
+                  {plan.recommended && <span class="plan__badge mono">Empfohlen</span>}
+                </h3>
+                <p class="plan__price">
+                  <span class="plan__amount">CHF {plan.monthly}</span>
+                  <span class="plan__unit">/ Monat</span>
+                </p>
+                <p class="plan__desc">{plan.description}</p>
+              </article>
+            ))
+          }
         </div>
       </div>
 
-      <dl class="conditions" data-reveal>
-        {
-          conditions.map((item) => (
-            <div class="condition">
-              <dt>{item.title}</dt>
-              <dd>{item.text}</dd>
-            </div>
-          ))
-        }
-      </dl>
-      <p class="agb-link">
-        Es gelten die <a href="/agb/">Allgemeinen Geschäftsbedingungen (AGB)</a>.
-      </p>
+      <details class="more" data-reveal>
+        <summary>
+          <span>Zusatzfunktionen & Konditionen</span>
+          <Plus size={18} aria-hidden="true" class="more__icon" />
+        </summary>
+        <div class="more__body">
+          <div>
+            <h3 class="more__title">Zusatzfunktionen</h3>
+            <table class="price-table">
+              <caption class="visually-hidden">Zusatzfunktionen und Preise in CHF</caption>
+              <tbody>
+                {
+                  addons.map((addon) => (
+                    <tr>
+                      <th scope="row">{addon.name}</th>
+                      <td class="num mono">CHF {addon.price}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+            <p class="more__note">
+              Hosting jährlich: CHF {chf(monthlyPlans[0].yearly)}, Betreuung jährlich: CHF
+              {' '}{chf(monthlyPlans[1].yearly)} (je 1 Monat gratis).
+            </p>
+          </div>
+          <div>
+            <h3 class="more__title">Konditionen</h3>
+            <dl class="conditions">
+              {
+                conditions.map((item) => (
+                  <div class="condition">
+                    <dt>{item.title}</dt>
+                    <dd>{item.text}</dd>
+                  </div>
+                ))
+              }
+            </dl>
+            <p class="more__note">
+              Es gelten die <a href="/agb/">Allgemeinen Geschäftsbedingungen</a>.
+            </p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -339,9 +266,8 @@ const lng = site.geo.lng.toFixed(4);
         <p class="eyebrow"><span data-scramble>Demo-Beispiel</span></p>
         <h2 id="demo-title" class="h2">So kann Ihre Website aussehen.</h2>
         <p class="lead">
-          Die Schreinerei «Lindenmatt» ist ein erfundener Betrieb – die Website dazu ist echt. Sie
-          zeigt, was in einem Paket steckt: eigenes Design, schnelle Ladezeit und ein Auftritt, der
-          auf dem Handy genauso überzeugt.
+          Die Schreinerei ist erfunden – die Website ist echt: eigenes Design, schnell und für das
+          Handy gemacht.
         </p>
         <a
           href="https://demo.webagentur-wuethrich.com"
@@ -349,7 +275,7 @@ const lng = site.geo.lng.toFixed(4);
           target="_blank"
           rel="noopener"
         >
-          Demo-Website öffnen <ArrowUpRight size={16} aria-hidden="true" />
+          Demo öffnen <ArrowUpRight size={16} aria-hidden="true" />
           <span class="visually-hidden">(öffnet in neuem Tab)</span>
         </a>
       </div>
@@ -368,7 +294,7 @@ const lng = site.geo.lng.toFixed(4);
   </section>
 
   <!-- ================= Über mich ================= -->
-  <section id="ueber-mich" class="section" aria-labelledby="ueber-title">
+  <section id="ueber-mich" class="section surface-paper" aria-labelledby="ueber-title">
     <div class="container about">
       <div class="about__portrait" data-reveal>
         <Portrait />
@@ -376,38 +302,16 @@ const lng = site.geo.lng.toFixed(4);
       <div class="about__text" data-reveal style="--reveal-delay: 100ms">
         <p class="eyebrow"><span data-scramble>Über mich</span></p>
         <h2 id="ueber-title" class="h2">
-          Saubere Arbeit. Faire Preise. <span class="accent">Persönlicher Service.</span>
+          Faire Preise. <span class="accent">Persönlicher Service.</span>
         </h2>
         <p class="lead">
-          Bei der Webagentur Wüthrich haben Sie von der ersten Idee bis nach der Veröffentlichung
-          einen direkten Ansprechpartner. Mir ist wichtig, dass jede Website sauber und sicher
-          aufgebaut ist, schnell lädt und bei Google gefunden wird – nach aktuellen Best Practices.
+          Bei mir haben Sie einen direkten Ansprechpartner. Jede Website wird sauber und sicher
+          aufgebaut, lädt schnell und wird bei Google gefunden.
         </p>
+        <ul class="values" role="list">
+          {values.map((value) => <li class="mono">{value}</li>)}
+        </ul>
       </div>
-      <ul class="reasons" role="list">
-        {
-          reasons.map((reason, index) => (
-            <li class="reason" data-reveal style={`--reveal-delay: ${(index % 3) * 80}ms`}>
-              <p class="reason__key mono">
-                <span aria-hidden="true">{String(index + 1).padStart(2, '0')} / </span>
-                {reason.key}
-              </p>
-              <p class="reason__text">{reason.text}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <!-- ================= Ablauf ================= -->
-  <section id="ablauf" class="section section--raised" aria-labelledby="ablauf-title">
-    <div class="container">
-      <div class="section-head" data-reveal>
-        <p class="eyebrow"><span data-scramble>Ablauf</span></p>
-        <h2 id="ablauf-title" class="h2">In vier Schritten zur neuen Website.</h2>
-      </div>
-      <ProcessSteps />
     </div>
   </section>
 
@@ -419,48 +323,50 @@ const lng = site.geo.lng.toFixed(4);
         <h2 id="kontakt-title" class="h2">
           Reden wir über <span class="accent">Ihre Website.</span>
         </h2>
-        <p class="lead">
-          Erzählen Sie mir kurz, was Sie vorhaben. Sie erhalten eine klare, unverbindliche Offerte
-          zum Fixpreis.
-        </p>
+        <p class="lead">Sie erhalten eine unverbindliche Offerte zum Fixpreis.</p>
 
-        <a href={telHref} class="contact__phone">
-          <span class="contact__label mono">Direkt anrufen</span>
-          <span class="contact__phone-number">{contact.phone}</span>
-        </a>
+        <ol class="steps mono" role="list" aria-label="Ablauf">
+          {
+            steps.map((step, index) => (
+              <li>
+                <span aria-hidden="true">{index + 1}</span>
+                {step}
+              </li>
+            ))
+          }
+        </ol>
 
-        <ul class="contact__list" role="list">
-          <li>
-            <Mail size={18} aria-hidden="true" />
-            {
-              contact.email ? (
-                <a href={`mailto:${contact.email}`}>{contact.email}</a>
-              ) : (
-                <span class="text-soft">E-Mail-Adresse folgt in Kürze</span>
-              )
-            }
-          </li>
-          <li>
-            <MapPin size={18} aria-hidden="true" />
-            <address>
-              {site.name}, {site.owner}<br />
-              {contact.street}, {contact.postalCode} {contact.city}
-            </address>
-          </li>
-          <li>
+        <div class="contact__direct">
+          <a href={telHref} class="contact__link">
             <Phone size={18} aria-hidden="true" />
-            <a href={telHref}>{contact.phone}</a>
-          </li>
-        </ul>
+            {contact.phone}
+          </a>
+          {
+            contact.email && (
+              <a href={`mailto:${contact.email}`} class="contact__link">
+                <Mail size={18} aria-hidden="true" />
+                {contact.email}
+              </a>
+            )
+          }
+        </div>
       </div>
 
       <div class="contact__form spot" data-spotlight data-reveal style="--reveal-delay: 120ms">
-        <h3 class="contact__form-title">Anfrage senden</h3>
         <ContactForm />
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  // Auf dem Handy: Paket-Karussell beim empfohlenen Paket starten.
+  const scroller = document.querySelector<HTMLElement>('[data-price-scroller]');
+  const featured = scroller?.querySelector<HTMLElement>('.price-card--featured');
+  if (scroller && featured && scroller.scrollWidth > scroller.clientWidth) {
+    scroller.scrollLeft = featured.offsetLeft - (scroller.clientWidth - featured.offsetWidth) / 2;
+  }
+</script>
 
 <style>
   .head-gap {
@@ -482,6 +388,11 @@ const lng = site.geo.lng.toFixed(4);
     position: absolute;
     inset: 0;
     z-index: -3;
+  }
+
+  .hero__media :global(picture) {
+    display: block;
+    height: 100%;
   }
 
   .hero__media :global(.hero__img) {
@@ -584,34 +495,20 @@ const lng = site.geo.lng.toFixed(4);
     z-index: -1;
     background:
       linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 25% 100%,
-      linear-gradient(to bottom, rgb(10 12 16 / 0.1), rgb(10 12 16 / 0.85) 70%);
+      linear-gradient(to bottom, rgb(19 25 34 / 0) 20%, rgb(19 25 34 / 0.55) 60%, rgb(19 25 34 / 0.8));
   }
 
   .hero__inner {
     position: relative;
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 1fr auto;
     gap: var(--space-xl);
-    padding-top: calc(var(--header-height) + var(--space-lg));
-    padding-bottom: var(--space-xl);
-  }
-
-  .hero__coords {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem 1.25rem;
-    font-size: var(--text-2xs);
-    letter-spacing: 0.06em;
-    color: var(--color-text-faint);
-    animation: fade-in 1000ms ease both 400ms;
-  }
-
-  .hero__coords-place {
-    color: var(--color-text-soft);
+    padding-top: calc(var(--header-height) + var(--space-xl));
+    padding-bottom: var(--space-2xl);
   }
 
   .hero__content {
-    align-self: end;
+    align-self: center;
     display: grid;
     gap: var(--space-lg);
     max-width: 52rem;
@@ -653,7 +550,7 @@ const lng = site.geo.lng.toFixed(4);
   }
 
   .hero__lead {
-    color: #c3ccd5;
+    color: #c9d1da;
     animation: fade-up 1100ms var(--ease-out) both 400ms;
   }
 
@@ -665,10 +562,8 @@ const lng = site.geo.lng.toFixed(4);
     animation: fade-up 1100ms var(--ease-out) both 520ms;
   }
 
-  .hero__aside {
-    animation: fade-up 1100ms var(--ease-out) both 700ms;
-  }
-
+  /* Live-Messung nur auf grossen Bildschirmen – auf dem Handy wäre sie zu viel */
+  .hero__aside,
   .hero__scroll {
     display: none;
   }
@@ -681,7 +576,12 @@ const lng = site.geo.lng.toFixed(4);
 
   @media (max-width: 61.99rem) {
     .hero__media :global(.hero__img) {
-      object-position: 70% 30%;
+      object-position: 82% 40%;
+    }
+
+    /* Handy: Text unten, Höhenlinien darüber sichtbar */
+    .hero__content {
+      align-self: end;
     }
   }
 
@@ -689,30 +589,27 @@ const lng = site.geo.lng.toFixed(4);
     .hero__grid {
       background:
         linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 25% 100%,
-        linear-gradient(to top, rgb(10 12 16 / 0.95), transparent 40%),
-        linear-gradient(to right, rgb(10 12 16 / 0.7), transparent 70%);
+        linear-gradient(to top, rgb(19 25 34 / 0.9), transparent 35%),
+        linear-gradient(to right, rgb(19 25 34 / 0.6), transparent 70%);
     }
 
     .hero__inner {
       grid-template-columns: minmax(0, 1fr) auto;
-      grid-template-rows: auto 1fr auto;
-      padding-bottom: var(--space-2xl);
-    }
-
-    .hero__coords {
-      grid-column: 1 / -1;
+      grid-template-rows: 1fr auto;
     }
 
     .hero__content {
       grid-column: 1;
-      grid-row: 2;
+      grid-row: 1;
     }
 
     .hero__aside {
+      display: block;
       grid-column: 2;
-      grid-row: 2;
+      grid-row: 1;
       align-self: end;
       width: 18rem;
+      animation: fade-up 1100ms var(--ease-out) both 700ms;
     }
 
     .hero__scroll {
@@ -721,7 +618,6 @@ const lng = site.geo.lng.toFixed(4);
       align-items: center;
       gap: 0.5rem;
       justify-self: start;
-      padding-top: var(--space-lg);
       font-size: var(--text-2xs);
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -759,7 +655,7 @@ const lng = site.geo.lng.toFixed(4);
     display: flex;
     flex-shrink: 0;
     gap: 3rem;
-    padding: 1rem 1.5rem;
+    padding: 0.9rem 1.5rem;
     margin: 0;
     font-family: var(--font-mono);
     font-size: var(--text-xs);
@@ -793,120 +689,67 @@ const lng = site.geo.lng.toFixed(4);
     }
   }
 
-  /* ---------- Prinzipien ---------- */
-  .principles {
+  /* ---------- Leistungen (hell) ---------- */
+  .services {
     display: grid;
-    border-top: 1px solid var(--color-line);
-    border-left: 1px solid var(--color-line);
+    gap: var(--space-lg) var(--space-xl);
   }
 
   @media (min-width: 40rem) {
-    .principles {
+    .services {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
   @media (min-width: 72rem) {
-    .principles {
+    .services {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
-  .principle {
+  .service {
     display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.35rem var(--space-md);
     align-content: start;
-    gap: var(--space-sm);
-    padding: var(--space-xl) var(--space-lg);
-    border-right: 1px solid var(--color-line);
-    border-bottom: 1px solid var(--color-line);
-    background: rgb(10 12 16 / 0.6);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-paper-line);
   }
 
-  .principle__key {
-    font-size: var(--text-2xs);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+  .service__icon {
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-ink);
     color: var(--color-accent);
+    transition: transform var(--duration-base) var(--ease-out);
   }
 
-  .principle__title {
-    margin-top: var(--space-xl);
+  .service:hover .service__icon {
+    transform: rotate(-6deg) scale(1.05);
+  }
+
+  .service__title {
     font-size: var(--text-lg);
     letter-spacing: -0.02em;
   }
 
-  .principle__text {
-    color: var(--color-text-soft);
+  .service__text {
+    color: var(--color-ink-soft);
     font-size: var(--text-sm);
   }
 
-  /* ---------- Leistungen ---------- */
-  .service-rows {
-    border-top: 1px solid var(--color-line);
-  }
-
-  .service-row {
-    position: relative;
-    display: grid;
-    grid-template-columns: 2.5rem minmax(0, 1fr);
-    gap: 0.5rem var(--space-md);
-    align-items: baseline;
-    padding: var(--space-lg) 0;
-    border-bottom: 1px solid var(--color-line);
-  }
-
-  /* Akzentlinie, die beim Überfahren einläuft */
-  .service-row::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -1px;
-    width: 100%;
-    height: 1px;
-    background: var(--color-accent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform var(--duration-slow) var(--ease-out);
-  }
-
-  .service-row:hover::after {
-    transform: scaleX(1);
-  }
-
-  .service-row__index {
-    font-size: var(--text-xs);
-    color: var(--color-text-faint);
-    transition: color var(--duration-fast) ease;
-  }
-
-  .service-row:hover .service-row__index {
-    color: var(--color-accent);
-  }
-
-  .service-row__title {
-    font-size: var(--text-xl);
-    font-weight: 540;
-    letter-spacing: -0.03em;
-  }
-
-  .service-row__text {
-    grid-column: 2;
-    color: var(--color-text-soft);
-    font-size: var(--text-sm);
-    max-width: 60ch;
-  }
-
-  @media (min-width: 48rem) {
-    .service-row {
-      grid-template-columns: 4rem minmax(0, 0.9fr) minmax(0, 1.1fr);
-      align-items: start;
-      padding: var(--space-xl) 0;
+  @media (min-width: 72rem) {
+    .service {
+      grid-template-columns: 1fr;
     }
 
-    .service-row__text {
-      grid-column: 3;
-      grid-row: 1;
-      padding-top: 0.3rem;
+    .service__icon {
+      grid-row: auto;
+      margin-bottom: var(--space-sm);
     }
   }
 
@@ -938,170 +781,109 @@ const lng = site.geo.lng.toFixed(4);
     gap: var(--space-md);
   }
 
+  .swipe-hint {
+    display: none;
+  }
+
+  /* Handy & Tablet: Pakete als Karussell zum Wischen statt endlos untereinander */
+  @media (max-width: 61.99rem) {
+    .price-grid {
+      grid-auto-flow: column;
+      grid-auto-columns: min(80%, 21rem);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      margin-inline: calc(-1 * var(--gutter));
+      padding: 0.25rem var(--gutter) var(--space-md);
+      scroll-padding-inline: var(--gutter);
+      scrollbar-width: none;
+    }
+
+    .price-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .price-grid :global(.price-card) {
+      scroll-snap-align: center;
+    }
+
+    .swipe-hint {
+      display: block;
+      text-align: center;
+      font-size: var(--text-2xs);
+      letter-spacing: 0.06em;
+      color: var(--color-text-faint);
+    }
+  }
+
   @media (min-width: 62rem) {
     .price-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  .included {
+  .included,
+  .plans {
     display: grid;
-    gap: var(--space-lg);
-    margin-top: var(--space-md);
-    padding: var(--space-xl) var(--space-lg);
-    border: 1px solid var(--color-line);
-    border-radius: var(--radius-md);
+    gap: var(--space-sm);
+    margin-top: var(--space-xl);
   }
 
-  @media (min-width: 62rem) {
-    .included {
-      grid-template-columns: 14rem minmax(0, 1fr);
-      padding: var(--space-xl);
-    }
-  }
-
-  .included__title {
-    font-size: var(--text-lg);
-  }
-
-  .included__list {
-    font-size: var(--text-sm);
-  }
-
-  @media (min-width: 40rem) {
-    .included__list {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--space-xl);
-    }
-  }
-
-  .extras {
-    display: grid;
-    gap: var(--space-2xl);
-    margin-top: var(--space-2xl);
-  }
-
-  @media (min-width: 62rem) {
-    .extras {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    }
-  }
-
-  .extras__block {
-    display: grid;
-    align-content: start;
-    gap: var(--space-lg);
-  }
-
-  .extras__title {
-    display: grid;
-    gap: 0.5rem;
-    font-size: var(--text-xl);
-    letter-spacing: -0.03em;
-  }
-
-  .extras__label {
+  .included__label {
     font-size: var(--text-2xs);
-    font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-accent);
   }
 
-  .extras__note {
+  .included__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .included__list li {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--color-line);
+    border-radius: 2rem;
     font-size: var(--text-xs);
-    color: var(--color-text-faint);
+    color: var(--color-text-soft);
   }
 
-  .price-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: var(--text-sm);
-  }
-
-  .price-table thead th {
-    padding: 0 0 0.75rem;
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-align: left;
-    color: var(--color-text-faint);
-    border-bottom: 1px solid var(--color-line-strong);
-  }
-
-  .price-table tbody th,
-  .price-table td {
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--color-line);
-    text-align: left;
-    font-weight: 500;
-    vertical-align: top;
-  }
-
-  .price-table tbody th {
-    padding-right: var(--space-md);
-  }
-
-  .price-table :global(.price-table__icon) {
-    display: inline-block;
-    margin-right: 0.5rem;
-    color: var(--color-accent);
-    vertical-align: -0.1em;
-  }
-
-  .price-table .num {
-    text-align: right;
-    white-space: nowrap;
-  }
-
-  .plans {
+  .plans__grid {
     display: grid;
-    gap: var(--space-md);
-  }
-
-  @media (min-width: 36rem) {
-    .plans {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-sm);
   }
 
   .plan {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    padding: var(--space-lg);
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+    padding: var(--space-md) var(--space-lg);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
     background: var(--color-bg-raised);
   }
 
   .plan--featured {
-    border-color: rgb(200 241 105 / 0.55);
-    background:
-      linear-gradient(180deg, rgb(200 241 105 / 0.06), transparent 45%),
-      var(--color-bg-elev);
-  }
-
-  .plan__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-sm);
+    border-color: rgb(200 241 105 / 0.45);
   }
 
   .plan__name {
-    font-size: var(--text-lg);
-    letter-spacing: -0.02em;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--text-base);
   }
 
   .plan__badge {
-    padding: 0.15rem 0.5rem;
+    padding: 0.1rem 0.45rem;
     border-radius: 2rem;
     background: var(--color-accent);
     color: var(--color-on-accent);
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -1110,59 +892,125 @@ const lng = site.geo.lng.toFixed(4);
   .plan__price {
     display: flex;
     align-items: baseline;
-    gap: 0.4rem;
-    padding-top: var(--space-sm);
+    flex-wrap: wrap;
+    gap: 0.35rem;
   }
 
-  .plan__currency,
+  .plan__amount {
+    font-size: var(--text-xl);
+    font-weight: 560;
+    letter-spacing: -0.03em;
+  }
+
   .plan__unit {
     font-size: var(--text-xs);
     color: var(--color-text-soft);
   }
 
-  .plan__amount {
-    font-size: 2.5rem;
-    font-weight: 560;
-    letter-spacing: -0.045em;
-    line-height: 1;
+  .plan__desc {
+    font-size: var(--text-xs);
+    color: var(--color-text-soft);
   }
 
-  .plan__yearly {
-    font-size: 0.6875rem;
+  /* Kleingedrucktes zum Aufklappen */
+  .more {
+    margin-top: var(--space-xl);
+    border-block: 1px solid var(--color-line);
+  }
+
+  .more summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    min-height: 3.5rem;
+    font-weight: 560;
+    cursor: pointer;
+    list-style: none;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .more summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .more summary:hover {
     color: var(--color-accent);
   }
 
-  .plan__features {
-    margin-top: var(--space-sm);
-    padding-top: var(--space-md);
-    border-top: 1px solid var(--color-line);
+  .more :global(.more__icon) {
+    flex-shrink: 0;
+    color: var(--color-accent);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .more[open] :global(.more__icon) {
+    transform: rotate(45deg);
+  }
+
+  .more__body {
+    display: grid;
+    gap: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    animation: fade-in 400ms ease;
+  }
+
+  @media (min-width: 62rem) {
+    .more__body {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-2xl);
+    }
+  }
+
+  .more__title {
+    margin-bottom: var(--space-sm);
+    font-size: var(--text-base);
+  }
+
+  .more__note {
+    margin-top: var(--space-md);
     font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
+
+  .more__note a {
+    color: var(--color-text);
+    text-decoration-color: var(--color-accent);
+  }
+
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  .price-table th,
+  .price-table td {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--color-line);
+    text-align: left;
+    font-weight: 500;
+    vertical-align: top;
+  }
+
+  .price-table th {
+    padding-right: var(--space-md);
+  }
+
+  .price-table .num {
+    text-align: right;
+    white-space: nowrap;
+    color: var(--color-text-soft);
   }
 
   .conditions {
     display: grid;
-    margin-top: var(--space-2xl);
-    border-top: 1px solid var(--color-line);
-  }
-
-  @media (min-width: 48rem) {
-    .conditions {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--space-2xl);
-    }
-  }
-
-  @media (min-width: 72rem) {
-    .conditions {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
   }
 
   .condition {
     display: grid;
-    align-content: start;
-    gap: 0.3rem;
-    padding-block: var(--space-lg);
+    gap: 0.2rem;
+    padding-block: 0.7rem;
     border-bottom: 1px solid var(--color-line);
   }
 
@@ -1175,17 +1023,6 @@ const lng = site.geo.lng.toFixed(4);
     margin: 0;
     color: var(--color-text-soft);
     font-size: var(--text-xs);
-  }
-
-  .agb-link {
-    margin-top: var(--space-lg);
-    font-size: var(--text-sm);
-    color: var(--color-text-soft);
-  }
-
-  .agb-link a {
-    color: var(--color-text);
-    text-decoration-color: var(--color-accent);
   }
 
   /* ---------- Demo ---------- */
@@ -1211,10 +1048,11 @@ const lng = site.geo.lng.toFixed(4);
     justify-items: start;
   }
 
-  /* ---------- Über mich ---------- */
+  /* ---------- Über mich (hell) ---------- */
   .about {
     display: grid;
-    gap: var(--space-2xl);
+    gap: var(--space-xl);
+    align-items: center;
   }
 
   .about__portrait {
@@ -1224,74 +1062,57 @@ const lng = site.geo.lng.toFixed(4);
   .about__text {
     display: grid;
     gap: var(--space-lg);
-    align-content: center;
-  }
-
-  .reasons {
-    display: grid;
-    border-top: 1px solid var(--color-line);
-  }
-
-  @media (min-width: 40rem) {
-    .reasons {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--space-xl);
-    }
   }
 
   @media (min-width: 62rem) {
     .about {
       grid-template-columns: auto minmax(0, 1fr);
       column-gap: clamp(3rem, 2rem + 4vw, 6rem);
-      align-items: center;
-    }
-
-    .about__portrait {
-      justify-self: start;
-    }
-
-    .reasons {
-      grid-column: 1 / -1;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      column-gap: var(--space-2xl);
     }
   }
 
-  .reason {
-    display: grid;
-    align-content: start;
-    gap: 0.4rem;
-    padding-block: var(--space-lg);
-    border-bottom: 1px solid var(--color-line);
+  .values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
-  .reason__key {
+  .values li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--color-paper-line);
+    border-radius: 2rem;
+    background: var(--color-paper-raised);
     font-size: var(--text-2xs);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--color-accent);
   }
 
-  .reason__text {
-    color: var(--color-text-soft);
-    font-size: var(--text-sm);
+  .values li::before {
+    content: '';
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--color-accent-ink);
   }
 
   /* ---------- Kontakt ---------- */
   .contact-section {
     background:
-      radial-gradient(60rem 30rem at 15% 100%, rgb(200 241 105 / 0.06), transparent 70%),
+      radial-gradient(60rem 30rem at 15% 100%, rgb(200 241 105 / 0.07), transparent 70%),
       var(--color-bg);
   }
 
   .contact {
     display: grid;
-    gap: var(--space-2xl);
+    gap: var(--space-xl);
   }
 
   @media (min-width: 62rem) {
     .contact {
       grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: var(--space-2xl);
       align-items: start;
     }
   }
@@ -1301,74 +1122,84 @@ const lng = site.geo.lng.toFixed(4);
     gap: var(--space-lg);
   }
 
-  .contact__phone {
-    display: grid;
-    gap: 0.3rem;
-    margin-top: var(--space-md);
-    text-decoration: none;
-  }
-
-  .contact__label {
-    font-size: var(--text-2xs);
-    letter-spacing: 0.06em;
+  .steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--color-text-faint);
+    color: var(--color-text-soft);
   }
 
-  .contact__phone-number {
-    font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.6rem);
-    font-weight: 540;
-    letter-spacing: -0.035em;
-    line-height: 1.1;
-    transition: color var(--duration-fast) ease;
+  .steps li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
   }
 
-  .contact__phone:hover .contact__phone-number {
-    color: var(--color-accent);
-  }
-
-  .contact__list {
+  .steps li span {
     display: grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 50%;
+    color: var(--color-accent);
+    font-size: 0.6875rem;
+  }
+
+  /* Handy: 2 × 2 ohne Verbindungslinien, ab Tablet in einer Reihe */
+  @media (max-width: 29.99rem) {
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem;
+    }
+  }
+
+  @media (min-width: 30rem) {
+    .steps li:not(:last-child)::after {
+      content: '';
+      width: 1rem;
+      height: 1px;
+      margin-left: 0.15rem;
+      background: var(--color-line-strong);
+    }
+  }
+
+  .contact__direct {
+    display: grid;
+    gap: 0.25rem;
+    padding-top: var(--space-md);
     border-top: 1px solid var(--color-line);
   }
 
-  .contact__list li {
-    display: flex;
-    gap: var(--space-md);
-    align-items: flex-start;
-    padding-block: var(--space-md);
-    border-bottom: 1px solid var(--color-line);
-    font-size: var(--text-sm);
-  }
-
-  .contact__list :global(svg) {
-    flex-shrink: 0;
-    margin-top: 0.15rem;
-    color: var(--color-accent);
-  }
-
-  .contact__list a {
+  .contact__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 2.75rem;
+    width: fit-content;
+    font-size: var(--text-lg);
+    font-weight: 540;
+    letter-spacing: -0.02em;
     text-decoration: none;
+    transition: color var(--duration-fast) ease;
   }
 
-  .contact__list a:hover {
+  .contact__link :global(svg) {
     color: var(--color-accent);
   }
 
-  .contact__list address {
-    font-style: normal;
+  .contact__link:hover {
+    color: var(--color-accent);
   }
 
   .contact__form {
-    padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+    padding: clamp(1.25rem, 1rem + 2vw, 2.5rem);
     border: 1px solid var(--color-line);
     border-radius: var(--radius-md);
     background: var(--color-bg-raised);
-  }
-
-  .contact__form-title {
-    margin-bottom: var(--space-lg);
-    font-size: var(--text-xl);
-    letter-spacing: -0.03em;
   }
 </style>

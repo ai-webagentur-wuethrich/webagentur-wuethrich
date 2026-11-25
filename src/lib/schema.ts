@@ -27,7 +27,7 @@ export function businessSchema(siteUrl: URL | undefined) {
     name: site.name,
     description: site.description,
     url: siteUrl?.toString(),
-    logo: siteUrl ? new URL('/favicon.svg', siteUrl).toString() : undefined,
+    logo: siteUrl ? new URL('/apple-touch-icon-v2.png', siteUrl).toString() : undefined,
     image: siteUrl ? new URL(site.defaultOgImage, siteUrl).toString() : undefined,
     founder: { '@type': 'Person', name: site.owner },
     telephone: contact.phone,
