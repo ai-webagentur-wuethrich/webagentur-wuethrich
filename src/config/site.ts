@@ -55,11 +55,12 @@ export const site = {
   hosting: {
     provider: 'Hostinger International Ltd.',
     providerSeat: 'Zypern',
-    /**
-     * PLATZHALTER: Rechenzentrum der eigenen Website, z. B. 'Deutschland (Frankfurt)'
-     * oder 'Litauen'. Zu finden in Hostinger hPanel → Websites → Dashboard / Plan-Details.
-     */
-    serverLocation: '',
+    /** Rechenzentrum der Website (Hostinger hPanel → Websites → Dashboard). */
+    serverLocation: 'Deutschland (Frankfurt)',
+    /** Speicherort der Sicherungskopien (Backups). */
+    backupLocation: 'Frankreich',
+    /** Anbieter des E-Mail-Postfachs (Kontaktformular und E-Mail). */
+    emailProvider: 'Hostinger',
   },
   /** Kontaktformular (PHP-Skript auf Hostinger, siehe src/pages/kontakt-senden.php.ts). */
   form: {

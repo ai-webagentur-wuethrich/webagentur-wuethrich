@@ -45,9 +45,9 @@ Benötigt Node.js 22.23 oder neuer (siehe `.nvmrc`).
 1. E-Mail-Adresse ist eingetragen (`info@webagentur-wuethrich.com`, `src/config/site.ts`).
    Sie ist Empfänger und Absender des Kontaktformulars – das Postfach muss bei
    Hostinger existieren. Nach der Veröffentlichung einmal eine Testanfrage senden.
-2. Platzhalter in der Datenschutzerklärung ergänzen (Aufbewahrungsdauer
-   Logfiles, E-Mail-Anbieter). Platzhalter sind auf der Website gelb markiert.
-3. Serverstandort in `src/config/site.ts` (`hosting.serverLocation`) eintragen.
+2. Hosting-Angaben (Serverstandort Frankfurt, Backups in Frankreich, E-Mail bei
+   Hostinger) stehen in `src/config/site.ts` (`hosting`) – bei Änderungen dort anpassen.
+3. AGB und Datenschutzerklärung einmal von einer Fachperson prüfen lassen.
 
 ## Hosting auf Hostinger
 

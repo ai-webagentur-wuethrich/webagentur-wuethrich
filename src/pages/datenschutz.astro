@@ -39,24 +39,19 @@ const { contact, hosting } = site;
         Daten in sogenannten Logfiles: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite,
         übertragene Datenmenge, Browsertyp und Betriebssystem sowie die zuvor besuchte Seite
         (Referrer). Diese Daten dienen ausschliesslich dem sicheren und stabilen Betrieb der
-        Website und werden nicht mit anderen Daten zusammengeführt. Sie werden nach
-        <span class="placeholder">[Aufbewahrungsdauer gemäss Hostinger]</span> gelöscht.
+        Website und werden nicht mit anderen Daten zusammengeführt. Sie werden vom
+        Hosting-Anbieter nach einer begrenzten Zeit automatisch gelöscht, sofern sie nicht zur
+        Aufklärung eines Sicherheitsvorfalls länger benötigt werden.
       </p>
 
       <h2>3. Hosting</h2>
       <p>
         Diese Website wird bei {hosting.provider} ({hosting.providerSeat}) betrieben. Hostinger
         unterhält Rechenzentren in Europa, Asien und Amerika; diese Website wird in einem
-        Rechenzentrum in
-        {
-          hosting.serverLocation ? (
-            hosting.serverLocation
-          ) : (
-            <span class="placeholder">[Serverstandort]</span>
-          )
-        } betrieben. Hostinger bearbeitet die Daten als Auftragsbearbeiter. Soweit Daten in einen
-        Staat der EU/EWR übermittelt werden, verfügt dieser nach Einschätzung des Bundesrats über
-        einen angemessenen Datenschutz.
+        Rechenzentrum in {hosting.serverLocation} betrieben. Sicherungskopien (Backups) werden in
+        einem Rechenzentrum in {hosting.backupLocation} gespeichert. Hostinger bearbeitet die Daten als
+        Auftragsbearbeiter. Deutschland und Frankreich sind Staaten der EU und verfügen nach
+        Einschätzung des Bundesrats über einen angemessenen Datenschutz.
       </p>
 
       <h2>4. Kontaktaufnahme und Kontaktformular</h2>
@@ -68,8 +63,8 @@ const { contact, hosting } = site;
       </p>
       <p>
         Die Angaben aus dem Kontaktformular werden über den Server des Hosting-Anbieters per
-        E-Mail an mich übermittelt und nicht in einer Datenbank gespeichert. E-Mail-Anbieter:
-        <span class="placeholder">[E-Mail-Anbieter]</span>.
+        E-Mail an mich übermittelt und nicht in einer Datenbank gespeichert. Mein E-Mail-Postfach
+        wird ebenfalls bei {hosting.emailProvider} betrieben.
       </p>
       <p>
         Zum Schutz vor Missbrauch (Spam) wird beim Absenden des Formulars ein nicht
