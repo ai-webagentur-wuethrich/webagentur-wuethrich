@@ -22,11 +22,10 @@ export const site = {
   defaultOgImage: '/og-webagentur-wuethrich-v1.jpg',
   contact: {
     /**
-     * PLATZHALTER: E-Mail-Adresse folgt. Solange leer:
-     * – Impressum/Datenschutz zeigen einen markierten Platzhalter,
-     * – das Kontaktformular verweist auf das Telefon.
+     * Öffentliche E-Mail-Adresse, zugleich Empfänger des Kontaktformulars.
+     * Leer lassen = Formular ausgeschaltet, Platzhalter in Impressum/Datenschutz.
      */
-    email: '',
+    email: 'info@webagentur-wuethrich.com',
     phone: '+41 76 426 61 44',
     phoneHref: '+41764266144',
     street: 'Rössligasse 67',
@@ -66,11 +65,11 @@ export const site = {
   form: {
     endpoint: '/kontakt-senden.php',
     /**
-     * Absenderadresse der Formular-Mails. Muss bei Hostinger als Postfach
-     * auf der eigenen Domain existieren, sonst landen Mails im Spam.
-     * PLATZHALTER: nach Einrichtung der E-Mail prüfen.
+     * Absenderadresse der Formular-Mails. Muss ein bestehendes Postfach auf der
+     * eigenen Domain sein, sonst landen die Mails im Spam. Die Adresse der
+     * anfragenden Person steht als «Antworten an» in der Mail.
      */
-    sender: 'website@webagentur-wuethrich.com',
+    sender: 'info@webagentur-wuethrich.com',
   },
 };
 

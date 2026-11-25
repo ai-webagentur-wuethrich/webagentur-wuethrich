@@ -42,13 +42,12 @@ Benötigt Node.js 22.23 oder neuer (siehe `.nvmrc`).
 
 ## Vor der Veröffentlichung
 
-1. **E-Mail-Adresse** in `src/config/site.ts` (`contact.email`) eintragen.
-   Damit wird auch das Kontaktformular aktiv.
-2. Bei Hostinger ein Postfach für die Absenderadresse `form.sender`
-   (Standard: `website@webagentur-wuethrich.com`) anlegen.
-3. Platzhalter in der Datenschutzerklärung ergänzen (Aufbewahrungsdauer
+1. E-Mail-Adresse ist eingetragen (`info@webagentur-wuethrich.com`, `src/config/site.ts`).
+   Sie ist Empfänger und Absender des Kontaktformulars – das Postfach muss bei
+   Hostinger existieren. Nach der Veröffentlichung einmal eine Testanfrage senden.
+2. Platzhalter in der Datenschutzerklärung ergänzen (Aufbewahrungsdauer
    Logfiles, E-Mail-Anbieter). Platzhalter sind auf der Website gelb markiert.
-4. Serverstandort in `src/config/site.ts` (`hosting.serverLocation`) eintragen.
+3. Serverstandort in `src/config/site.ts` (`hosting.serverLocation`) eintragen.
 
 ## Hosting auf Hostinger
 

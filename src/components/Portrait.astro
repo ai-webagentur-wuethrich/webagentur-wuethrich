@@ -72,8 +72,8 @@ const initials = site.owner
     box-shadow: 0 0 0 1px var(--color-line-strong);
   }
 
-  /* Foto etwas verkleinert auf weissem Grund (= Hintergrundfarbe des Fotos):
-     mehr Luft über dem Kopf, Gesicht horizontal zentriert. */
+  /* Gesicht mittig im Kreis, mit etwas Luft über dem Kopf.
+     Weisser Grund = Hintergrundfarbe des Fotos, damit kein Rand sichtbar ist. */
   .portrait__frame:has(:global(.portrait__img)) {
     background: #f8f8fa;
   }
@@ -83,7 +83,7 @@ const initials = site.owner
     height: 100%;
     object-fit: cover;
     object-position: 50% 0;
-    transform: translate(3.2%, 10%) scale(0.9);
+    transform: translate(3.8%, 4%) scale(0.96);
     transform-origin: 50% 0;
   }
 
