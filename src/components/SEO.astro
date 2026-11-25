@@ -1,0 +1,67 @@
+---
+/**
+ * SEO-Metadaten: Titel, Description, Canonical, Open Graph, Twitter Card,
+ * Robots-Regeln und optionale strukturierte Daten (JSON-LD).
+ */
+import { site } from '@/config/site';
+
+export interface Props {
+  title: string;
+  description?: string;
+  /** Pfad oder absolute URL eines Vorschaubilds (1200 × 630 px). */
+  image?: string;
+  imageAlt?: string;
+  /** Seite von Suchmaschinen ausschliessen (z. B. 404, Danke-Seite). */
+  noindex?: boolean;
+  type?: 'website' | 'article';
+  /** Zusätzliche strukturierte Daten (Schema.org) für diese Seite. */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = site.description,
+  image = site.defaultOgImage,
+  imageAlt = site.name,
+  noindex = false,
+  type = 'website',
+  schema,
+} = Astro.props;
+
+const isHome = Astro.url.pathname === '/';
+const fullTitle = isHome ? title : `${title} | ${site.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+// Demo-Websites werden nie indexiert (fiktive Firma soll nicht bei Google erscheinen).
+const robots = noindex || site.isDemo ? 'noindex, follow' : 'index, follow, max-image-preview:large';
+
+const schemas = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robots} />
+<link rel="canonical" href={canonical} />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<meta property="og:type" content={type} />
+<meta property="og:locale" content={site.locale} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+{
+  schemas.map((entry) => (
+    <script type="application/ld+json" set:html={JSON.stringify(entry)} />
+  ))
+}

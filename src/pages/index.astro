@@ -1,0 +1,1374 @@
+---
+/**
+ * Landingpage: alle Inhalte auf einer Seite.
+ * Bereiche: Hero · Prinzipien · Leistungen · Preise · Demo · Über mich · Ablauf · Kontakt
+ */
+import { Picture } from 'astro:assets';
+import { ArrowRight, ArrowDown, ArrowUpRight, Phone, Mail, MapPin, Plus } from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LiveMetrics from '@/components/LiveMetrics.astro';
+import PricingCard from '@/components/PricingCard.astro';
+import ProcessSteps from '@/components/ProcessSteps.astro';
+import DeviceMockup from '@/components/DeviceMockup.astro';
+import Portrait from '@/components/Portrait.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import { site, telHref } from '@/config/site';
+import { services } from '@/config/services';
+import {
+  packages,
+  included,
+  addons,
+  monthlyPlans,
+  conditions,
+  referenceDiscount,
+  chf,
+} from '@/config/pricing';
+import { websiteSchema, businessSchema, offersSchema } from '@/lib/schema';
+import heroImage from '@/assets/images/hero-hoehenlinien.png';
+import demoDesktop from '@/assets/images/demo-lindenmatt-desktop.png';
+import demoMobile from '@/assets/images/demo-lindenmatt-mobil.png';
+
+const principles = [
+  {
+    key: 'Schnell',
+    title: 'Lädt in einem Wimpernschlag',
+    text: 'Optimierte Bilder, lokale Schriften und kaum JavaScript. Ihre Besucher warten nicht – auch nicht im Mobilnetz.',
+  },
+  {
+    key: 'Gefunden',
+    title: 'Gebaut für Google',
+    text: 'Saubere Struktur, passende Seitentitel, strukturierte Daten und regionale Suchbegriffe – damit Kunden Sie finden.',
+  },
+  {
+    key: 'Sicher',
+    title: 'Nach aktuellem Stand',
+    text: 'HTTPS, Sicherheits-Header, Spamschutz und keine unnötigen Tracker. Datenschutz nach Schweizer DSG mitgedacht.',
+  },
+  {
+    key: 'Mobil',
+    title: 'Zuerst fürs Smartphone',
+    text: 'Die meisten Besucher kommen übers Handy. Deshalb entsteht jede Website zuerst für den kleinen Bildschirm.',
+  },
+];
+
+const ticker = [
+  'Astro',
+  'Core Web Vitals',
+  'AVIF / WebP',
+  'Schema.org',
+  'Local SEO',
+  'HTTPS',
+  'DSG-konform',
+  'WCAG 2.2',
+  'Mobile First',
+  'Keine Tracker',
+];
+
+const reasons = [
+  { key: 'Sauber', text: 'Kein Baukasten, kein Plugin-Wirrwarr – klarer, moderner Code, der sich später leicht erweitern lässt.' },
+  { key: 'Sicher', text: 'HTTPS, Sicherheits-Header, Spamschutz und aktuelle Komponenten. Keine Daten-Sammler.' },
+  { key: 'SEO', text: 'Seitentitel, Struktur und strukturierte Daten sind von Anfang an eingebaut – nicht angeflickt.' },
+  { key: 'Tempo', text: 'Best Practice bei Bildern, Schriften und Code. Ladezeiten werden gemessen, nicht geschätzt.' },
+  { key: 'Preis', text: 'Faire Fixpreise ab CHF 790, transparent und ohne versteckte Gebühren.' },
+  { key: 'Service', text: 'Ein direkter Ansprechpartner, den Sie anrufen können – verständlich, ohne Fachchinesisch.' },
+];
+
+const { contact } = site;
+const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSchema(Astro.site)].filter(
+  (entry): entry is NonNullable<typeof entry> => entry !== null,
+);
+const lat = site.geo.lat.toFixed(4);
+const lng = site.geo.lng.toFixed(4);
+---
+
+<BaseLayout
+  title="Webagentur Wüthrich – Websites für Schweizer KMU | Riehen, Basel"
+  description={site.description}
+  schema={schema}
+>
+  <!-- ================= Hero ================= -->
+  <section class="hero" aria-labelledby="hero-title" data-spotlight>
+    <div class="hero__media">
+      <Picture
+        src={heroImage}
+        formats={['avif', 'webp']}
+        widths={[768, 1280, 1920, 2880]}
+        sizes="100vw"
+        alt=""
+        class="hero__img"
+        loading="eager"
+        fetchpriority="high"
+        fallbackFormat="jpg"
+        quality={72}
+      />
+    </div>
+    <div class="hero__light" aria-hidden="true"></div>
+    <div class="hero__grid" aria-hidden="true"></div>
+    <div class="hero__scan" aria-hidden="true"></div>
+
+    <div class="container hero__inner">
+      <p class="hero__coords mono" aria-hidden="true">
+        <span data-scramble data-scramble-delay="500">{lat}° N</span>
+        <span data-scramble data-scramble-delay="650">{lng}° E</span>
+        <span class="hero__coords-place">Riehen · Basel</span>
+      </p>
+
+      <div class="hero__content">
+        <p class="eyebrow hero__eyebrow">
+          <span data-scramble data-scramble-delay="200">Webagentur für Schweizer KMU</span>
+        </p>
+        <h1 id="hero-title" class="display hero__title">
+          Websites, die <em>schnell laden</em> und gefunden werden.
+        </h1>
+        <p class="lead hero__lead">
+          Für Handwerksbetriebe, Dienstleister und lokale Unternehmen: individuell gestaltet,
+          sauber programmiert und für Google optimiert – zum Fixpreis ab CHF 790.
+        </p>
+        <div class="hero__actions">
+          <a href="#kontakt" class="btn btn--lg">
+            Offerte anfragen <ArrowRight size={18} aria-hidden="true" />
+          </a>
+          <a href="#preise" class="btn btn--ghost btn--lg">Preise ansehen</a>
+        </div>
+      </div>
+
+      <div class="hero__aside">
+        <LiveMetrics />
+      </div>
+
+      <a href="#prinzipien" class="hero__scroll mono">
+        <ArrowDown size={14} aria-hidden="true" /> Mehr erfahren
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= Technik-Laufband ================= -->
+  <div class="ticker" role="region" aria-label="Technik und Standards">
+    <ul class="ticker__track" role="list">
+      {ticker.map((item) => <li>{item}</li>)}
+    </ul>
+    <ul class="ticker__track" role="list" aria-hidden="true">
+      {ticker.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+
+  <!-- ================= Prinzipien ================= -->
+  <section id="prinzipien" class="section grid-bg" aria-labelledby="prinzipien-title">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <div>
+          <p class="eyebrow"><span data-scramble>Worauf ich achte</span></p>
+          <h2 id="prinzipien-title" class="h2 head-gap">
+            Gut aussehen reicht nicht. Ihre Website muss <span class="accent">arbeiten.</span>
+          </h2>
+        </div>
+        <p class="lead">
+          Hinter jeder Website stecken Entscheidungen, die man nicht sieht, aber merkt: wie schnell
+          sie lädt, ob Google sie versteht und ob Ihre Kunden Sie auf dem Handy erreichen.
+        </p>
+      </div>
+
+      <ul class="principles" role="list">
+        {
+          principles.map((item, index) => (
+            <li class="principle spot" data-spotlight data-reveal style={`--reveal-delay: ${index * 90}ms`}>
+              <p class="principle__key mono">
+                <span aria-hidden="true">0{index + 1} / </span>
+                {item.key}
+              </p>
+              <h3 class="principle__title">{item.title}</h3>
+              <p class="principle__text">{item.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= Leistungen ================= -->
+  <section id="leistungen" class="section section--raised" aria-labelledby="leistungen-title">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <div>
+          <p class="eyebrow"><span data-scramble>Leistungen</span></p>
+          <h2 id="leistungen-title" class="h2 head-gap">
+            Alles aus einer Hand – vom Design bis zur Betreuung.
+          </h2>
+        </div>
+        <p class="lead">
+          Sie haben einen Ansprechpartner für Ihre ganze Website. Kein Weiterreichen, keine
+          Fachsprache, keine Überraschungen bei der Rechnung.
+        </p>
+      </div>
+
+      <ol class="service-rows" role="list">
+        {
+          services.map((service, index) => (
+            <li class="service-row" data-reveal style={`--reveal-delay: ${index * 60}ms`}>
+              <span class="service-row__index mono" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 class="service-row__title">{service.title}</h3>
+              <p class="service-row__text">{service.description}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= Preise ================= -->
+  <section id="preise" class="section" aria-labelledby="preise-title">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <div>
+          <p class="eyebrow"><span data-scramble>Preise</span></p>
+          <h2 id="preise-title" class="h2 head-gap">Fixpreise statt Stundenrapport.</h2>
+        </div>
+        <div class="preise-head__text">
+          <p class="lead">
+            Sie wissen von Anfang an, was Ihre Website kostet. Alle Preise in CHF, nicht
+            MWST-pflichtig.
+          </p>
+          <p class="preise-head__ref mono">
+            <span class="preise-head__ref-tag">−{referenceDiscount} %</span>
+            <span>Referenzrabatt für die ersten Kundinnen und Kunden</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="price-grid">
+        {packages.map((pkg, index) => <PricingCard pkg={pkg} index={index} detailed />)}
+      </div>
+
+      <div class="included" data-reveal>
+        <h3 class="included__title">In allen Paketen enthalten</h3>
+        <ul class="check-list included__list">
+          {included.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+
+      <div class="extras">
+        <div class="extras__block" data-reveal>
+          <h3 class="extras__title">
+            <span class="mono extras__label">Zusatzfunktionen</span>
+            Erweitern, wenn Sie es brauchen
+          </h3>
+          <table class="price-table">
+            <caption class="visually-hidden">Zusatzfunktionen und Preise in CHF</caption>
+            <thead>
+              <tr>
+                <th scope="col">Zusatz</th>
+                <th scope="col" class="num">CHF</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                addons.map((addon) => (
+                  <tr>
+                    <th scope="row">
+                      <Plus size={14} aria-hidden="true" class="price-table__icon" />
+                      {addon.name}
+                    </th>
+                    <td class="num mono">{addon.price}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+          <p class="extras__note">Im Paket Premium sind zwei Zusatzfunktionen inklusive.</p>
+        </div>
+
+        <div class="extras__block" data-reveal style="--reveal-delay: 100ms">
+          <h3 class="extras__title">
+            <span class="mono extras__label">Monatliche Pakete</span>
+            Online bleiben, ohne Technik-Sorgen
+          </h3>
+          <div class="plans">
+            {
+              monthlyPlans.map((plan) => (
+                <article
+                  class:list={['plan', 'spot', { 'plan--featured': plan.recommended }]}
+                  aria-labelledby={`plan-${plan.id}`}
+                  data-spotlight
+                >
+                  <div class="plan__head">
+                    <h4 id={`plan-${plan.id}`} class="plan__name">
+                      {plan.name}
+                    </h4>
+                    {plan.recommended && <p class="plan__badge mono">Empfohlen</p>}
+                  </div>
+                  <p class="plan__price">
+                    <span class="plan__currency mono">CHF</span>
+                    <span class="plan__amount">{plan.monthly}</span>
+                    <span class="plan__unit mono">/ Monat</span>
+                  </p>
+                  <p class="plan__yearly mono">oder CHF {chf(plan.yearly)} / Jahr – 1 Monat gratis</p>
+                  <ul class="check-list plan__features">
+                    {plan.features.map((feature) => (
+                      <li>{feature}</li>
+                    ))}
+                  </ul>
+                </article>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <dl class="conditions" data-reveal>
+        {
+          conditions.map((item) => (
+            <div class="condition">
+              <dt>{item.title}</dt>
+              <dd>{item.text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="agb-link">
+        Es gelten die <a href="/agb/">Allgemeinen Geschäftsbedingungen (AGB)</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= Demo ================= -->
+  <section id="demo" class="section section--raised demo" aria-labelledby="demo-title">
+    <div class="container demo__inner">
+      <div class="demo__text" data-reveal>
+        <p class="eyebrow"><span data-scramble>Demo-Beispiel</span></p>
+        <h2 id="demo-title" class="h2">So kann Ihre Website aussehen.</h2>
+        <p class="lead">
+          Die Schreinerei «Lindenmatt» ist ein erfundener Betrieb – die Website dazu ist echt. Sie
+          zeigt, was in einem Paket steckt: eigenes Design, schnelle Ladezeit und ein Auftritt, der
+          auf dem Handy genauso überzeugt.
+        </p>
+        <a
+          href="https://demo.webagentur-wuethrich.com"
+          class="btn btn--ghost"
+          target="_blank"
+          rel="noopener"
+        >
+          Demo-Website öffnen <ArrowUpRight size={16} aria-hidden="true" />
+          <span class="visually-hidden">(öffnet in neuem Tab)</span>
+        </a>
+      </div>
+
+      <div data-reveal style="--reveal-delay: 120ms">
+        <DeviceMockup
+          desktop={demoDesktop}
+          mobile={demoMobile}
+          alt="Startseite der Demo-Website einer fiktiven Schreinerei mit grossem Werkstattbild und der Überschrift «Holz, das bleibt. Gebaut in Burgdorf.»"
+          urlLabel="demo.webagentur-wuethrich.com"
+          sizes="(min-width: 78rem) 44rem, (min-width: 62rem) 55vw, 92vw"
+          label="Demo · fiktive Firma"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Über mich ================= -->
+  <section id="ueber-mich" class="section" aria-labelledby="ueber-title">
+    <div class="container about">
+      <div class="about__portrait" data-reveal>
+        <Portrait />
+      </div>
+      <div class="about__text" data-reveal style="--reveal-delay: 100ms">
+        <p class="eyebrow"><span data-scramble>Über mich</span></p>
+        <h2 id="ueber-title" class="h2">
+          Saubere Arbeit. Faire Preise. <span class="accent">Persönlicher Service.</span>
+        </h2>
+        <p class="lead">
+          Bei der Webagentur Wüthrich haben Sie von der ersten Idee bis nach der Veröffentlichung
+          einen direkten Ansprechpartner. Mir ist wichtig, dass jede Website sauber und sicher
+          aufgebaut ist, schnell lädt und bei Google gefunden wird – nach aktuellen Best Practices.
+        </p>
+      </div>
+      <ul class="reasons" role="list">
+        {
+          reasons.map((reason, index) => (
+            <li class="reason" data-reveal style={`--reveal-delay: ${(index % 3) * 80}ms`}>
+              <p class="reason__key mono">
+                <span aria-hidden="true">{String(index + 1).padStart(2, '0')} / </span>
+                {reason.key}
+              </p>
+              <p class="reason__text">{reason.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= Ablauf ================= -->
+  <section id="ablauf" class="section section--raised" aria-labelledby="ablauf-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow"><span data-scramble>Ablauf</span></p>
+        <h2 id="ablauf-title" class="h2">In vier Schritten zur neuen Website.</h2>
+      </div>
+      <ProcessSteps />
+    </div>
+  </section>
+
+  <!-- ================= Kontakt ================= -->
+  <section id="kontakt" class="section contact-section" aria-labelledby="kontakt-title">
+    <div class="container contact">
+      <div class="contact__info" data-reveal>
+        <p class="eyebrow"><span data-scramble>Kontakt</span></p>
+        <h2 id="kontakt-title" class="h2">
+          Reden wir über <span class="accent">Ihre Website.</span>
+        </h2>
+        <p class="lead">
+          Erzählen Sie mir kurz, was Sie vorhaben. Sie erhalten eine klare, unverbindliche Offerte
+          zum Fixpreis.
+        </p>
+
+        <a href={telHref} class="contact__phone">
+          <span class="contact__label mono">Direkt anrufen</span>
+          <span class="contact__phone-number">{contact.phone}</span>
+        </a>
+
+        <ul class="contact__list" role="list">
+          <li>
+            <Mail size={18} aria-hidden="true" />
+            {
+              contact.email ? (
+                <a href={`mailto:${contact.email}`}>{contact.email}</a>
+              ) : (
+                <span class="text-soft">E-Mail-Adresse folgt in Kürze</span>
+              )
+            }
+          </li>
+          <li>
+            <MapPin size={18} aria-hidden="true" />
+            <address>
+              {site.name}, {site.owner}<br />
+              {contact.street}, {contact.postalCode} {contact.city}
+            </address>
+          </li>
+          <li>
+            <Phone size={18} aria-hidden="true" />
+            <a href={telHref}>{contact.phone}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="contact__form spot" data-spotlight data-reveal style="--reveal-delay: 120ms">
+        <h3 class="contact__form-title">Anfrage senden</h3>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .head-gap {
+    margin-top: var(--space-md);
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+  }
+
+  .hero__media :global(.hero__img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 72% 45%;
+    animation: hero-in 1600ms var(--ease-out) both;
+  }
+
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: scale(1.06);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Lichtkegel folgt dem Mauszeiger und lässt die Höhenlinien aufleuchten */
+  .hero__light {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background: radial-gradient(
+      26rem circle at var(--mx, 70%) var(--my, 40%),
+      rgb(200 241 105 / 0.2),
+      transparent 70%
+    );
+    mix-blend-mode: color-dodge;
+    opacity: 0;
+    transition: opacity 600ms ease;
+    pointer-events: none;
+  }
+
+  .hero:global(.is-lit) .hero__light {
+    opacity: 1;
+  }
+
+  /* Einmaliger Scan-Strahl beim Laden */
+  .hero__scan {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: -1;
+    width: 30%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(200 241 105 / 0.07) 85%,
+      rgb(200 241 105 / 0.45) 99.5%,
+      transparent
+    );
+    transform: translateX(-100%);
+    animation: hero-scan 2.4s cubic-bezier(0.6, 0, 0.3, 1) 0.5s both;
+    pointer-events: none;
+  }
+
+  @keyframes hero-scan {
+    0% {
+      transform: translateX(-100%);
+      opacity: 1;
+    }
+    85% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(380%);
+      opacity: 0;
+    }
+  }
+
+  /* Dezenter Parallax beim Scrollen (nur moderne Browser, nur ohne «weniger Bewegung») */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: scroll()) {
+      .hero__media {
+        animation: hero-parallax linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 100vh;
+      }
+
+      @keyframes hero-parallax {
+        to {
+          transform: translateY(14%);
+        }
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__scan {
+      display: none;
+    }
+  }
+
+  .hero__grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 25% 100%,
+      linear-gradient(to bottom, rgb(10 12 16 / 0.1), rgb(10 12 16 / 0.85) 70%);
+  }
+
+  .hero__inner {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--space-xl);
+    padding-top: calc(var(--header-height) + var(--space-lg));
+    padding-bottom: var(--space-xl);
+  }
+
+  .hero__coords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    font-size: var(--text-2xs);
+    letter-spacing: 0.06em;
+    color: var(--color-text-faint);
+    animation: fade-in 1000ms ease both 400ms;
+  }
+
+  .hero__coords-place {
+    color: var(--color-text-soft);
+  }
+
+  .hero__content {
+    align-self: end;
+    display: grid;
+    gap: var(--space-lg);
+    max-width: 52rem;
+  }
+
+  .hero__eyebrow {
+    animation: fade-in 800ms ease both 200ms;
+  }
+
+  .hero__title {
+    max-width: 14ch;
+    animation: fade-up 1100ms var(--ease-out) both 250ms;
+  }
+
+  .hero__title em {
+    position: relative;
+    font-style: normal;
+    color: var(--color-accent);
+  }
+
+  /* Unterstrich, der sich nach dem Laden einzeichnet */
+  .hero__title em::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.02em;
+    height: 0.06em;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: underline 900ms var(--ease-out) 1300ms forwards;
+  }
+
+  @keyframes underline {
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .hero__lead {
+    color: #c3ccd5;
+    animation: fade-up 1100ms var(--ease-out) both 400ms;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-xs);
+    animation: fade-up 1100ms var(--ease-out) both 520ms;
+  }
+
+  .hero__aside {
+    animation: fade-up 1100ms var(--ease-out) both 700ms;
+  }
+
+  .hero__scroll {
+    display: none;
+  }
+
+  @media (max-width: 29.99rem) {
+    .hero__actions .btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 61.99rem) {
+    .hero__media :global(.hero__img) {
+      object-position: 70% 30%;
+    }
+  }
+
+  @media (min-width: 62rem) {
+    .hero__grid {
+      background:
+        linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 25% 100%,
+        linear-gradient(to top, rgb(10 12 16 / 0.95), transparent 40%),
+        linear-gradient(to right, rgb(10 12 16 / 0.7), transparent 70%);
+    }
+
+    .hero__inner {
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-rows: auto 1fr auto;
+      padding-bottom: var(--space-2xl);
+    }
+
+    .hero__coords {
+      grid-column: 1 / -1;
+    }
+
+    .hero__content {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .hero__aside {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: end;
+      width: 18rem;
+    }
+
+    .hero__scroll {
+      grid-column: 1 / -1;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-self: start;
+      padding-top: var(--space-lg);
+      font-size: var(--text-2xs);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--color-text-faint);
+      transition: color var(--duration-fast) ease;
+    }
+
+    .hero__scroll:hover {
+      color: var(--color-accent);
+    }
+
+    .hero__scroll :global(svg) {
+      animation: nudge 2s ease-in-out infinite;
+    }
+
+    @keyframes nudge {
+      50% {
+        transform: translateY(3px);
+      }
+    }
+  }
+
+  /* ---------- Laufband ---------- */
+  .ticker {
+    display: flex;
+    overflow: hidden;
+    border-block: 1px solid var(--color-line);
+    background: var(--color-bg-raised);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .ticker__track {
+    display: flex;
+    flex-shrink: 0;
+    gap: 3rem;
+    padding: 1rem 1.5rem;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-soft);
+    white-space: nowrap;
+    animation: ticker 38s linear infinite;
+  }
+
+  .ticker__track li {
+    display: inline-flex;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .ticker__track li::after {
+    content: '';
+    width: 0.35rem;
+    height: 0.35rem;
+    background: var(--color-accent);
+  }
+
+  .ticker:hover .ticker__track {
+    animation-play-state: paused;
+  }
+
+  @keyframes ticker {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* ---------- Prinzipien ---------- */
+  .principles {
+    display: grid;
+    border-top: 1px solid var(--color-line);
+    border-left: 1px solid var(--color-line);
+  }
+
+  @media (min-width: 40rem) {
+    .principles {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .principles {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .principle {
+    display: grid;
+    align-content: start;
+    gap: var(--space-sm);
+    padding: var(--space-xl) var(--space-lg);
+    border-right: 1px solid var(--color-line);
+    border-bottom: 1px solid var(--color-line);
+    background: rgb(10 12 16 / 0.6);
+  }
+
+  .principle__key {
+    font-size: var(--text-2xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .principle__title {
+    margin-top: var(--space-xl);
+    font-size: var(--text-lg);
+    letter-spacing: -0.02em;
+  }
+
+  .principle__text {
+    color: var(--color-text-soft);
+    font-size: var(--text-sm);
+  }
+
+  /* ---------- Leistungen ---------- */
+  .service-rows {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .service-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 0.5rem var(--space-md);
+    align-items: baseline;
+    padding: var(--space-lg) 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  /* Akzentlinie, die beim Überfahren einläuft */
+  .service-row::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 100%;
+    height: 1px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--duration-slow) var(--ease-out);
+  }
+
+  .service-row:hover::after {
+    transform: scaleX(1);
+  }
+
+  .service-row__index {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+    transition: color var(--duration-fast) ease;
+  }
+
+  .service-row:hover .service-row__index {
+    color: var(--color-accent);
+  }
+
+  .service-row__title {
+    font-size: var(--text-xl);
+    font-weight: 540;
+    letter-spacing: -0.03em;
+  }
+
+  .service-row__text {
+    grid-column: 2;
+    color: var(--color-text-soft);
+    font-size: var(--text-sm);
+    max-width: 60ch;
+  }
+
+  @media (min-width: 48rem) {
+    .service-row {
+      grid-template-columns: 4rem minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: start;
+      padding: var(--space-xl) 0;
+    }
+
+    .service-row__text {
+      grid-column: 3;
+      grid-row: 1;
+      padding-top: 0.3rem;
+    }
+  }
+
+  /* ---------- Preise ---------- */
+  .preise-head__text {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  .preise-head__ref {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: var(--text-xs);
+    color: var(--color-text-soft);
+  }
+
+  .preise-head__ref-tag {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 2rem;
+    color: var(--color-accent);
+  }
+
+  .price-grid {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  @media (min-width: 62rem) {
+    .price-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .included {
+    display: grid;
+    gap: var(--space-lg);
+    margin-top: var(--space-md);
+    padding: var(--space-xl) var(--space-lg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+  }
+
+  @media (min-width: 62rem) {
+    .included {
+      grid-template-columns: 14rem minmax(0, 1fr);
+      padding: var(--space-xl);
+    }
+  }
+
+  .included__title {
+    font-size: var(--text-lg);
+  }
+
+  .included__list {
+    font-size: var(--text-sm);
+  }
+
+  @media (min-width: 40rem) {
+    .included__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-xl);
+    }
+  }
+
+  .extras {
+    display: grid;
+    gap: var(--space-2xl);
+    margin-top: var(--space-2xl);
+  }
+
+  @media (min-width: 62rem) {
+    .extras {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+  }
+
+  .extras__block {
+    display: grid;
+    align-content: start;
+    gap: var(--space-lg);
+  }
+
+  .extras__title {
+    display: grid;
+    gap: 0.5rem;
+    font-size: var(--text-xl);
+    letter-spacing: -0.03em;
+  }
+
+  .extras__label {
+    font-size: var(--text-2xs);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .extras__note {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
+
+  .price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  .price-table thead th {
+    padding: 0 0 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-align: left;
+    color: var(--color-text-faint);
+    border-bottom: 1px solid var(--color-line-strong);
+  }
+
+  .price-table tbody th,
+  .price-table td {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-line);
+    text-align: left;
+    font-weight: 500;
+    vertical-align: top;
+  }
+
+  .price-table tbody th {
+    padding-right: var(--space-md);
+  }
+
+  .price-table :global(.price-table__icon) {
+    display: inline-block;
+    margin-right: 0.5rem;
+    color: var(--color-accent);
+    vertical-align: -0.1em;
+  }
+
+  .price-table .num {
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .plans {
+    display: grid;
+    gap: var(--space-md);
+  }
+
+  @media (min-width: 36rem) {
+    .plans {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .plan {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-raised);
+  }
+
+  .plan--featured {
+    border-color: rgb(200 241 105 / 0.55);
+    background:
+      linear-gradient(180deg, rgb(200 241 105 / 0.06), transparent 45%),
+      var(--color-bg-elev);
+  }
+
+  .plan__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .plan__name {
+    font-size: var(--text-lg);
+    letter-spacing: -0.02em;
+  }
+
+  .plan__badge {
+    padding: 0.15rem 0.5rem;
+    border-radius: 2rem;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .plan__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    padding-top: var(--space-sm);
+  }
+
+  .plan__currency,
+  .plan__unit {
+    font-size: var(--text-xs);
+    color: var(--color-text-soft);
+  }
+
+  .plan__amount {
+    font-size: 2.5rem;
+    font-weight: 560;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .plan__yearly {
+    font-size: 0.6875rem;
+    color: var(--color-accent);
+  }
+
+  .plan__features {
+    margin-top: var(--space-sm);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-line);
+    font-size: var(--text-xs);
+  }
+
+  .conditions {
+    display: grid;
+    margin-top: var(--space-2xl);
+    border-top: 1px solid var(--color-line);
+  }
+
+  @media (min-width: 48rem) {
+    .conditions {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-2xl);
+    }
+  }
+
+  @media (min-width: 72rem) {
+    .conditions {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .condition {
+    display: grid;
+    align-content: start;
+    gap: 0.3rem;
+    padding-block: var(--space-lg);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .condition dt {
+    font-weight: 600;
+    font-size: var(--text-sm);
+  }
+
+  .condition dd {
+    margin: 0;
+    color: var(--color-text-soft);
+    font-size: var(--text-xs);
+  }
+
+  .agb-link {
+    margin-top: var(--space-lg);
+    font-size: var(--text-sm);
+    color: var(--color-text-soft);
+  }
+
+  .agb-link a {
+    color: var(--color-text);
+    text-decoration-color: var(--color-accent);
+  }
+
+  /* ---------- Demo ---------- */
+  .demo {
+    overflow: hidden;
+  }
+
+  .demo__inner {
+    display: grid;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  @media (min-width: 62rem) {
+    .demo__inner {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    }
+  }
+
+  .demo__text {
+    display: grid;
+    gap: var(--space-lg);
+    justify-items: start;
+  }
+
+  /* ---------- Über mich ---------- */
+  .about {
+    display: grid;
+    gap: var(--space-2xl);
+  }
+
+  .about__portrait {
+    justify-self: center;
+  }
+
+  .about__text {
+    display: grid;
+    gap: var(--space-lg);
+    align-content: center;
+  }
+
+  .reasons {
+    display: grid;
+    border-top: 1px solid var(--color-line);
+  }
+
+  @media (min-width: 40rem) {
+    .reasons {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-xl);
+    }
+  }
+
+  @media (min-width: 62rem) {
+    .about {
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: clamp(3rem, 2rem + 4vw, 6rem);
+      align-items: center;
+    }
+
+    .about__portrait {
+      justify-self: start;
+    }
+
+    .reasons {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: var(--space-2xl);
+    }
+  }
+
+  .reason {
+    display: grid;
+    align-content: start;
+    gap: 0.4rem;
+    padding-block: var(--space-lg);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .reason__key {
+    font-size: var(--text-2xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .reason__text {
+    color: var(--color-text-soft);
+    font-size: var(--text-sm);
+  }
+
+  /* ---------- Kontakt ---------- */
+  .contact-section {
+    background:
+      radial-gradient(60rem 30rem at 15% 100%, rgb(200 241 105 / 0.06), transparent 70%),
+      var(--color-bg);
+  }
+
+  .contact {
+    display: grid;
+    gap: var(--space-2xl);
+  }
+
+  @media (min-width: 62rem) {
+    .contact {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      align-items: start;
+    }
+  }
+
+  .contact__info {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .contact__phone {
+    display: grid;
+    gap: 0.3rem;
+    margin-top: var(--space-md);
+    text-decoration: none;
+  }
+
+  .contact__label {
+    font-size: var(--text-2xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+  }
+
+  .contact__phone-number {
+    font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.6rem);
+    font-weight: 540;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .contact__phone:hover .contact__phone-number {
+    color: var(--color-accent);
+  }
+
+  .contact__list {
+    display: grid;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .contact__list li {
+    display: flex;
+    gap: var(--space-md);
+    align-items: flex-start;
+    padding-block: var(--space-md);
+    border-bottom: 1px solid var(--color-line);
+    font-size: var(--text-sm);
+  }
+
+  .contact__list :global(svg) {
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+    color: var(--color-accent);
+  }
+
+  .contact__list a {
+    text-decoration: none;
+  }
+
+  .contact__list a:hover {
+    color: var(--color-accent);
+  }
+
+  .contact__list address {
+    font-style: normal;
+  }
+
+  .contact__form {
+    padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-raised);
+  }
+
+  .contact__form-title {
+    margin-bottom: var(--space-lg);
+    font-size: var(--text-xl);
+    letter-spacing: -0.03em;
+  }
+</style>

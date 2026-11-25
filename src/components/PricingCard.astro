@@ -1,0 +1,161 @@
+---
+/**
+ * Preiskarte für ein Website-Paket (Startseite und Preisseite).
+ */
+import { ArrowRight } from '@lucide/astro';
+import { type Package, chf, referenceDiscount } from '@/config/pricing';
+
+export interface Props {
+  pkg: Package;
+  /** Ausführliche Variante mit Referenzpreis. */
+  detailed?: boolean;
+  index: number;
+}
+
+const { pkg, detailed = false, index } = Astro.props;
+---
+
+<article
+  class:list={['price-card', 'spot', { 'price-card--featured': pkg.recommended }]}
+  aria-labelledby={`paket-${pkg.id}`}
+  data-reveal
+  data-spotlight
+  style={`--reveal-delay: ${index * 90}ms`}
+>
+  <header class="price-card__head">
+    <p class="price-card__index mono" aria-hidden="true">0{index + 1}</p>
+    {pkg.recommended && <p class="price-card__badge mono">Empfohlen</p>}
+  </header>
+  <h3 id={`paket-${pkg.id}`} class="price-card__name">{pkg.name}</h3>
+  <p class="price-card__summary">{pkg.summary}</p>
+
+  <p class="price-card__price">
+    <span class="price-card__currency mono">CHF</span>
+    <span class="price-card__amount">{chf(pkg.price)}</span>
+    <span class="price-card__unit mono">einmalig</span>
+  </p>
+  {
+    detailed && (
+      <p class="price-card__ref mono">
+        Mit {referenceDiscount} % Referenzrabatt: CHF {chf(pkg.referencePrice)}
+      </p>
+    )
+  }
+
+  <ul class="check-list price-card__features">
+    {pkg.features.map((feature) => <li>{feature}</li>)}
+  </ul>
+
+  <a
+    href="/#kontakt"
+    data-select-package={pkg.id}
+    class:list={['btn', pkg.recommended ? 'btn--primary' : 'btn--ghost', 'price-card__cta']}
+    aria-label={`Paket ${pkg.name} anfragen`}
+  >
+    {pkg.name} anfragen <ArrowRight size={16} aria-hidden="true" />
+  </a>
+</article>
+
+<style>
+  .price-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-raised);
+    transition:
+      border-color var(--duration-base) ease,
+      transform var(--duration-base) var(--ease-out);
+  }
+
+  .price-card:hover {
+    border-color: var(--color-line-strong);
+  }
+
+  .price-card--featured {
+    border-color: rgb(200 241 105 / 0.55);
+    background:
+      linear-gradient(180deg, rgb(200 241 105 / 0.07), transparent 45%),
+      var(--color-bg-elev);
+  }
+
+  .price-card--featured:hover {
+    border-color: var(--color-accent);
+  }
+
+  .price-card__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 1.6rem;
+  }
+
+  .price-card__index {
+    font-size: var(--text-2xs);
+    color: var(--color-text-faint);
+  }
+
+  .price-card__badge {
+    padding: 0.2rem 0.55rem;
+    border-radius: 2rem;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-size: var(--text-2xs);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .price-card__name {
+    font-size: var(--text-xl);
+    letter-spacing: -0.03em;
+  }
+
+  .price-card__summary {
+    color: var(--color-text-soft);
+    font-size: var(--text-sm);
+    min-height: 3em;
+  }
+
+  .price-card__price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: var(--space-sm);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .price-card__currency,
+  .price-card__unit {
+    font-size: var(--text-xs);
+    color: var(--color-text-soft);
+  }
+
+  .price-card__amount {
+    font-size: clamp(2.6rem, 2rem + 2vw, 3.4rem);
+    font-weight: 560;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .price-card__ref {
+    font-size: var(--text-2xs);
+    color: var(--color-accent);
+  }
+
+  .price-card__features {
+    margin-block: var(--space-md) var(--space-lg);
+    font-size: var(--text-sm);
+  }
+
+  .price-card__cta {
+    margin-top: auto;
+    width: 100%;
+  }
+</style>

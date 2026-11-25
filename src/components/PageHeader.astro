@@ -1,0 +1,86 @@
+---
+/**
+ * Kopfbereich für Unterseiten: Eyebrow, Titel, Einleitung.
+ * Im Hintergrund das Höhenlinien-Motiv aus dem Hero (abgeschwächt).
+ */
+import { Image } from 'astro:assets';
+import heroImage from '@/assets/images/hero-hoehenlinien.png';
+
+export interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+}
+
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<section class="page-header">
+  <Image
+    src={heroImage}
+    alt=""
+    class="page-header__bg"
+    widths={[960, 1600]}
+    sizes="100vw"
+    quality={70}
+    loading="eager"
+    fetchpriority="low"
+  />
+  <div class="container page-header__inner">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="page-header__title" set:html={title} />
+    {lead && <p class="lead">{lead}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-header {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding-top: calc(var(--header-height) + clamp(3.5rem, 2rem + 6vw, 7rem));
+    padding-bottom: clamp(3rem, 2rem + 4vw, 5.5rem);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .page-header__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 75% 40%;
+    opacity: 0.55;
+    mask-image: linear-gradient(to bottom, #000 30%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent);
+  }
+
+  .page-header__inner {
+    display: grid;
+    gap: var(--space-lg);
+    justify-items: start;
+  }
+
+  .page-header__title {
+    max-width: 18ch;
+    font-size: clamp(2.4rem, 1.6rem + 3.6vw, 4.75rem);
+    line-height: 1.02;
+    letter-spacing: var(--tracking-tight);
+    animation: fade-up 900ms var(--ease-out) both 80ms;
+  }
+
+  .page-header :global(em) {
+    font-style: normal;
+    color: var(--color-accent);
+  }
+
+  .page-header .eyebrow {
+    animation: fade-in 700ms ease both;
+  }
+
+  .page-header .lead {
+    animation: fade-up 900ms var(--ease-out) both 180ms;
+  }
+</style>

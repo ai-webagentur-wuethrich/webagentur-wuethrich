@@ -1,0 +1,107 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import EmailLink from '@/components/EmailLink.astro';
+import { site, telHref } from '@/config/site';
+
+const { contact } = site;
+---
+
+<BaseLayout
+  title="Datenschutzerklärung"
+  description="Datenschutzerklärung der Webagentur Wüthrich: welche Daten beim Besuch dieser Website und bei einer Kontaktaufnahme bearbeitet werden."
+>
+  <PageHeader
+    eyebrow="Rechtliches"
+    title="Datenschutz&shy;erklärung"
+    lead="Kurz gesagt: Diese Website verwendet keine Tracking-Cookies, keine Analyse-Dienste und lädt keine Inhalte von Drittanbietern."
+  />
+
+  <section class="section">
+    <div class="container prose">
+      <p>
+        Mit dieser Datenschutzerklärung informiere ich, welche Personendaten im Zusammenhang mit
+        dieser Website bearbeitet werden. Massgebend ist das Schweizer Datenschutzgesetz (DSG)
+        sowie, soweit anwendbar, die Datenschutz-Grundverordnung der EU (DSGVO).
+      </p>
+
+      <h2>1. Verantwortliche Stelle</h2>
+      <p>
+        {site.name}, {site.owner}<br />
+        {contact.street}, {contact.postalCode} {contact.city}, {contact.countryName}<br />
+        Telefon: <a href={telHref}>{contact.phone}</a><br />
+        E-Mail: <EmailLink />
+      </p>
+
+      <h2>2. Aufruf der Website (Server-Logfiles)</h2>
+      <p>
+        Beim Besuch dieser Website speichert der Hosting-Anbieter automatisch technisch notwendige
+        Daten in sogenannten Logfiles: IP-Adresse, Datum und Uhrzeit, aufgerufene Seite,
+        übertragene Datenmenge, Browsertyp und Betriebssystem sowie die zuvor besuchte Seite
+        (Referrer). Diese Daten dienen ausschliesslich dem sicheren und stabilen Betrieb der
+        Website und werden nicht mit anderen Daten zusammengeführt. Sie werden nach
+        <span class="placeholder">[Aufbewahrungsdauer gemäss Hostinger]</span> gelöscht.
+      </p>
+
+      <h2>3. Hosting</h2>
+      <p>
+        Diese Website wird bei Hostinger International Ltd. (Zypern) betrieben. Serverstandort:
+        <span class="placeholder">[Serverstandort]</span>. Hostinger bearbeitet die Daten als
+        Auftragsbearbeiter. Soweit Daten in einen Staat der EU/EWR übermittelt werden, verfügt
+        dieser nach Einschätzung des Bundesrats über einen angemessenen Datenschutz.
+      </p>
+
+      <h2>4. Kontaktaufnahme und Kontaktformular</h2>
+      <p>
+        Wenn Sie mich per Telefon, E-Mail oder Kontaktformular kontaktieren, bearbeite ich die
+        angegebenen Daten (Name, Firma, E-Mail-Adresse, Telefonnummer, Interesse und Nachricht)
+        ausschliesslich zur Beantwortung Ihrer Anfrage und zur Abwicklung eines allfälligen
+        Auftrags. Pflichtfelder sind gekennzeichnet; alle weiteren Angaben sind freiwillig.
+      </p>
+      <p>
+        Die Angaben aus dem Kontaktformular werden über den Server des Hosting-Anbieters per
+        E-Mail an mich übermittelt und nicht in einer Datenbank gespeichert. E-Mail-Anbieter:
+        <span class="placeholder">[E-Mail-Anbieter]</span>.
+      </p>
+      <p>
+        Zum Schutz vor Missbrauch (Spam) wird beim Absenden des Formulars ein nicht
+        rückverfolgbarer Prüfwert Ihrer IP-Adresse während höchstens einer Stunde auf dem Server
+        gespeichert, um zu viele Anfragen in kurzer Zeit zu verhindern.
+      </p>
+
+      <h2>5. Cookies, Tracking und externe Dienste</h2>
+      <p>
+        Diese Website verwendet keine Cookies, keine Analyse- oder Tracking-Dienste und keine
+        eingebetteten Inhalte von Drittanbietern (z. B. Karten, Videos, Social-Media-Plugins).
+        Schriften werden lokal vom eigenen Server geladen; es besteht keine Verbindung zu Google
+        Fonts oder ähnlichen Diensten.
+      </p>
+      <p>
+        Die auf der Startseite angezeigten Messwerte (Ladezeit, Datenmenge) werden nur in Ihrem
+        Browser berechnet und nicht übermittelt oder gespeichert.
+      </p>
+
+      <h2>6. Aufbewahrung</h2>
+      <p>
+        Personendaten werden nur so lange aufbewahrt, wie es für den jeweiligen Zweck nötig ist
+        oder gesetzliche Aufbewahrungspflichten (z. B. für Geschäftskorrespondenz und
+        Buchhaltung) bestehen.
+      </p>
+
+      <h2>7. Ihre Rechte</h2>
+      <p>
+        Sie haben das Recht auf Auskunft über Ihre bearbeiteten Personendaten sowie auf
+        Berichtigung, Löschung und Herausgabe Ihrer Daten. Wenden Sie sich dazu an die oben
+        genannte Kontaktadresse. Zudem können Sie sich beim Eidgenössischen Datenschutz- und
+        Öffentlichkeitsbeauftragten (EDÖB) beschweren.
+      </p>
+
+      <h2>8. Änderungen</h2>
+      <p>
+        Diese Datenschutzerklärung kann jederzeit angepasst werden. Es gilt die auf dieser Website
+        veröffentlichte Fassung.
+      </p>
+      <p class="mono" style="font-size: var(--text-xs)">Stand: November 2026</p>
+    </div>
+  </section>
+</BaseLayout>

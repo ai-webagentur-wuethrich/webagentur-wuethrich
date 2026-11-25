@@ -1,0 +1,50 @@
+---
+import { ArrowRight } from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { site, telHref } from '@/config/site';
+---
+
+<BaseLayout title="Vielen Dank für Ihre Anfrage" description="Ihre Anfrage ist eingegangen." noindex>
+  <section class="section status-page grid-bg">
+    <div class="container status-page__inner">
+      <p class="eyebrow">Anfrage gesendet</p>
+      <h1 class="status-page__title">Vielen Dank – Ihre Anfrage <em>ist angekommen.</em></h1>
+      <p class="lead">
+        Ich melde mich persönlich bei Ihnen. Bei dringenden Fragen erreichen Sie mich unter
+        <a href={telHref}>{site.contact.phone}</a>.
+      </p>
+      <a href="/" class="btn">Zur Startseite <ArrowRight size={18} aria-hidden="true" /></a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .status-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding-top: calc(var(--header-height) + var(--space-2xl));
+  }
+
+  .status-page__inner {
+    display: grid;
+    gap: var(--space-lg);
+    justify-items: start;
+  }
+
+  .status-page__title {
+    max-width: 18ch;
+    font-size: clamp(2.2rem, 1.6rem + 3vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .status-page__title em {
+    font-style: normal;
+    color: var(--color-accent);
+  }
+
+  .lead a {
+    color: var(--color-text);
+  }
+</style>

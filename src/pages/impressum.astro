@@ -1,0 +1,74 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import EmailLink from '@/components/EmailLink.astro';
+import { site, telHref } from '@/config/site';
+
+const { contact } = site;
+
+const demoImageCredits = [
+  { motif: 'Werkbank im Sonnenlicht', author: 'HENG YIN', url: 'https://unsplash.com/photos/woodworking-tools-on-workshop-workbench-KKY0GrQPqVo' },
+];
+---
+
+<BaseLayout
+  title="Impressum"
+  description="Impressum der Webagentur Wüthrich, Artur Wüthrich, Rössligasse 67, 4125 Riehen."
+>
+  <PageHeader eyebrow="Rechtliches" title="Impressum" />
+
+  <section class="section">
+    <div class="container prose">
+      <h2 style="margin-top: 0">Anbieterin dieser Website</h2>
+      <p>
+        <strong>{site.name}</strong><br />
+        {site.owner}<br />
+        {contact.street}<br />
+        {contact.postalCode} {contact.city}<br />
+        {contact.countryName}
+      </p>
+      <p>
+        Telefon: <a href={telHref}>{contact.phone}</a><br />
+        E-Mail: <EmailLink />
+      </p>
+
+      <h2>Verantwortliche Person</h2>
+      <p>{site.owner}, Inhaber</p>
+
+      <h2>Mehrwertsteuer</h2>
+      <p>Die Webagentur Wüthrich ist nicht MWST-pflichtig.</p>
+
+      <h2>Haftungsausschluss</h2>
+      <p>
+        Die Inhalte dieser Website werden mit grösstmöglicher Sorgfalt erstellt. Für die
+        Richtigkeit, Vollständigkeit und Aktualität der Inhalte wird keine Gewähr übernommen.
+        Für Inhalte externer Links sind ausschliesslich deren Betreiber verantwortlich.
+      </p>
+
+      <h2>Urheberrechte</h2>
+      <p>
+        Texte, Gestaltung und Grafiken dieser Website sind urheberrechtlich geschützt. Eine
+        Verwendung ohne schriftliche Zustimmung ist nicht gestattet.
+      </p>
+
+      <h2>Bildnachweis</h2>
+      <ul>
+        <li>Hintergrundgrafik (Höhenlinien): eigene Gestaltung der {site.name}.</li>
+        <li>
+          Screenshots der Demo-Website: eigene Aufnahmen. Das darin sichtbare Foto stammt von
+          Unsplash (Unsplash-Lizenz):
+          {
+            demoImageCredits.map((credit, index) => (
+              <>
+                {index > 0 && ', '}
+                {credit.motif} von <a href={credit.url} rel="noopener">{credit.author}</a>
+              </>
+            ))
+          }.
+        </li>
+        <li>Schriften: Geist und Geist Mono (SIL Open Font License), lokal eingebunden.</li>
+        <li>Icons: Lucide (ISC-Lizenz).</li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

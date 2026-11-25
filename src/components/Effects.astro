@@ -1,0 +1,85 @@
+---
+/**
+ * Dezente Hightech-Effekte für die ganze Website (ein kleines Skript, keine Bibliothek):
+ * – [data-scramble]: Text «entschlüsselt» sich beim Erscheinen (Zeichen-Rauschen → Klartext)
+ * – [data-spotlight]: Lichtkegel folgt dem Mauszeiger (setzt --mx / --my)
+ * Alles wird bei «weniger Bewegung» (prefers-reduced-motion) und auf Touch-Geräten
+ * (Spotlight) übersprungen. Inhalte bleiben ohne JavaScript vollständig sichtbar.
+ */
+---
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- Text-Scramble ----------
+  const glyphs = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&/<>_-+=*';
+
+  const scramble = (el: HTMLElement) => {
+    const visual = el.querySelector<HTMLElement>('[data-scramble-visual]');
+    const finalText = el.dataset.scrambleText ?? '';
+    if (!visual) return;
+    const duration = Math.min(1100, 380 + finalText.length * 28);
+    const start = performance.now();
+    const frame = (now: number) => {
+      const progress = Math.min(1, (now - start) / duration);
+      const revealed = Math.floor(progress * finalText.length);
+      let out = '';
+      for (let i = 0; i < finalText.length; i++) {
+        const ch = finalText[i];
+        out += i < revealed || ch === ' ' ? ch : glyphs[Math.floor(Math.random() * glyphs.length)];
+      }
+      visual.textContent = out;
+      if (progress < 1) requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  };
+
+  const scrambleTargets = Array.from(document.querySelectorAll<HTMLElement>('[data-scramble]'));
+  if (!reduce && 'IntersectionObserver' in window) {
+    for (const el of scrambleTargets) {
+      const text = el.textContent?.trim() ?? '';
+      el.dataset.scrambleText = text;
+      // Klartext für Screenreader, animierte Kopie nur visuell
+      el.innerHTML = '';
+      const sr = document.createElement('span');
+      sr.className = 'visually-hidden';
+      sr.textContent = text;
+      const visual = document.createElement('span');
+      visual.setAttribute('aria-hidden', 'true');
+      visual.dataset.scrambleVisual = '';
+      visual.textContent = text;
+      el.append(sr, visual);
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const el = entry.target as HTMLElement;
+          const delay = Number(el.dataset.scrambleDelay ?? 0);
+          setTimeout(() => scramble(el), delay);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.6 },
+    );
+    scrambleTargets.forEach((el) => observer.observe(el));
+  }
+
+  // ---------- Spotlight (nur mit Maus) ----------
+  if (!reduce && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    const spots = document.querySelectorAll<HTMLElement>('[data-spotlight]');
+    spots.forEach((el) => {
+      let raf = 0;
+      el.addEventListener('pointermove', (event) => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const rect = el.getBoundingClientRect();
+          el.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+          el.style.setProperty('--my', `${event.clientY - rect.top}px`);
+          el.classList.add('is-lit');
+        });
+      });
+      el.addEventListener('pointerleave', () => el.classList.remove('is-lit'));
+    });
+  }
+</script>

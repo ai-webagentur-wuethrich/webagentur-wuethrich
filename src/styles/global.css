@@ -1,0 +1,645 @@
+/* ==========================================================================
+   Globale Styles – Design-Tokens, Reset, Typografie, Layout, Komponenten
+   Konzept: «Präzision» – dunkler Graphit, feine Rasterlinien, technische
+   Mono-Beschriftungen und ein einziger Akzent (Signal-Lime).
+   Mobile First: Basis gilt für Smartphones, grössere Bildschirme über min-width.
+   ========================================================================== */
+
+/* ---------- Design-Tokens ---------- */
+:root {
+  /* Farben (Kontraste WCAG AA geprüft, siehe README) */
+  --color-bg: #0a0c10;
+  --color-bg-raised: #10141a;
+  --color-bg-elev: #161b23;
+  --color-line: #232a34;
+  --color-line-strong: #36404d;
+  --color-text: #e9edf1;
+  --color-text-soft: #a3aebb;
+  --color-text-faint: #7b8794;
+  --color-accent: #c8f169;
+  --color-accent-hover: #d8fa8b;
+  --color-on-accent: #0a0c10;
+  --color-error: #ff8a80;
+  /* Helle Flächen (sparsam eingesetzt) */
+  --color-paper: #eef0ea;
+  --color-ink: #0a0c10;
+  --color-ink-soft: #48525e;
+  --color-paper-line: #d3d8cf;
+  --color-accent-ink: #3d5a00;
+
+  /* Typografie (--font-sans / --font-mono werden von Astro Fonts gesetzt) */
+  --text-2xs: 0.75rem;
+  --text-xs: 0.8125rem;
+  --text-sm: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --text-base: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.3125rem);
+  --text-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+  --text-2xl: clamp(2rem, 1.45rem + 2.4vw, 3.5rem);
+  --text-3xl: clamp(2.5rem, 1.5rem + 4.6vw, 6rem);
+  --leading-tight: 1.02;
+  --leading-snug: 1.25;
+  --leading-normal: 1.65;
+  --tracking-tight: -0.035em;
+
+  /* Abstände */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: clamp(3rem, 2rem + 4vw, 5rem);
+  --space-section: clamp(4.5rem, 2.5rem + 8vw, 9rem);
+
+  /* Layout */
+  --container: 78rem;
+  --container-narrow: 46rem;
+  --gutter: clamp(1.25rem, 0.5rem + 3vw, 3rem);
+  --header-height: 4.5rem;
+
+  /* Formen */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+
+  /* Bewegung */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 160ms;
+  --duration-base: 320ms;
+  --duration-slow: 900ms;
+
+  color-scheme: dark;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-height) + 1rem);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+html.nav-locked {
+  overflow: hidden;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  font-feature-settings: 'ss01', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 560;
+  line-height: var(--leading-snug);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* ---------- Fokus & Auswahl ---------- */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.surface-paper :focus-visible {
+  outline-color: var(--color-ink);
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* ---------- Hilfsklassen ---------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transform: translateY(-200%);
+  transition: transform var(--duration-fast) ease;
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.container--narrow {
+  max-width: calc(var(--container-narrow) + 2 * var(--gutter));
+}
+
+/* ---------- Typografie-Bausteine ---------- */
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: normal;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--color-accent);
+  border-radius: 1px;
+}
+
+.surface-paper .eyebrow {
+  color: var(--color-ink-soft);
+}
+
+.surface-paper .eyebrow::before {
+  background: var(--color-accent-ink);
+}
+
+.display {
+  font-size: var(--text-3xl);
+  font-weight: 560;
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.h2 {
+  font-size: var(--text-2xl);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-tight);
+}
+
+.h3 {
+  font-size: var(--text-xl);
+  letter-spacing: -0.025em;
+}
+
+.lead {
+  font-size: var(--text-lg);
+  line-height: 1.55;
+  color: var(--color-text-soft);
+  max-width: 40rem;
+}
+
+.surface-paper .lead {
+  color: var(--color-ink-soft);
+}
+
+.text-soft {
+  color: var(--color-text-soft);
+}
+
+.accent {
+  color: var(--color-accent);
+}
+
+/* ---------- Sektionen ---------- */
+.section {
+  position: relative;
+  padding-block: var(--space-section);
+}
+
+.section--tight {
+  padding-block: var(--space-2xl);
+}
+
+.section--raised {
+  background: var(--color-bg-raised);
+  border-block: 1px solid var(--color-line);
+}
+
+.surface-paper {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  color-scheme: light;
+}
+
+.section-head {
+  display: grid;
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+  max-width: 48rem;
+}
+
+@media (min-width: 62rem) {
+  .section-head--split {
+    max-width: none;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: end;
+    gap: var(--space-2xl);
+  }
+}
+
+/* Feines Raster im Hintergrund (rein dekorativ) */
+.grid-bg {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.035) 1px, transparent 1px);
+  background-size: 4rem 4rem;
+  background-position: center top;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  --btn-bg: var(--color-accent);
+  --btn-fg: var(--color-on-accent);
+  --btn-border: var(--color-accent);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.35rem;
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius-sm);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) ease,
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+.btn svg {
+  flex-shrink: 0;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.btn:hover {
+  --btn-bg: var(--color-accent-hover);
+  --btn-border: var(--color-accent-hover);
+}
+
+.btn:hover svg:last-child {
+  transform: translateX(3px);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-text);
+  --btn-border: var(--color-line-strong);
+}
+
+.btn--ghost:hover {
+  --btn-bg: rgb(255 255 255 / 0.05);
+  --btn-border: var(--color-text-soft);
+}
+
+.btn--dark {
+  --btn-bg: var(--color-ink);
+  --btn-fg: var(--color-paper);
+  --btn-border: var(--color-ink);
+}
+
+.btn--dark:hover {
+  --btn-bg: #20262e;
+  --btn-border: #20262e;
+}
+
+.btn--lg {
+  min-height: 3.5rem;
+  padding-inline: 1.75rem;
+  font-size: var(--text-base);
+}
+
+/* Textlink mit Pfeil */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-line-strong);
+  padding-bottom: 0.2rem;
+  transition:
+    border-color var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.link-arrow svg {
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.link-arrow:hover {
+  border-color: var(--color-accent);
+}
+
+.link-arrow:hover svg {
+  transform: translateX(3px);
+}
+
+.surface-paper .link-arrow {
+  color: var(--color-ink);
+  border-color: var(--color-paper-line);
+}
+
+.surface-paper .link-arrow:hover {
+  border-color: var(--color-ink);
+}
+
+/* ---------- Häkchen-Liste ---------- */
+.check-list {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0;
+  list-style: none;
+}
+
+.check-list li {
+  position: relative;
+  padding-left: 1.6rem;
+  line-height: 1.5;
+}
+
+.check-list li::before {
+  content: '';
+  position: absolute;
+  left: 0.1rem;
+  top: 0.42em;
+  width: 0.7rem;
+  height: 0.4rem;
+  border-left: 2px solid var(--color-accent);
+  border-bottom: 2px solid var(--color-accent);
+  transform: rotate(-45deg);
+}
+
+.surface-paper .check-list li::before {
+  border-color: var(--color-accent-ink);
+}
+
+/* ---------- Fliesstext (Rechtliches) ---------- */
+.prose {
+  max-width: 46rem;
+  color: var(--color-text-soft);
+}
+
+.prose > * + * {
+  margin-top: 1.1em;
+}
+
+.prose h2 {
+  margin-top: 2.4em;
+  font-size: var(--text-lg);
+  color: var(--color-text);
+  letter-spacing: -0.015em;
+}
+
+.prose h2 + p,
+.prose h3 + p {
+  margin-top: 0.6em;
+}
+
+.prose h3 {
+  margin-top: 1.8em;
+  font-size: var(--text-base);
+  color: var(--color-text);
+}
+
+.prose strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.prose a {
+  color: var(--color-text);
+  text-decoration-color: var(--color-accent);
+}
+
+.prose a:hover {
+  color: var(--color-accent);
+}
+
+.prose ul {
+  padding-left: 1.2rem;
+}
+
+.prose li + li {
+  margin-top: 0.4em;
+}
+
+.prose li::marker {
+  color: var(--color-accent);
+}
+
+/* Platzhalter: fehlende Angaben gut sichtbar markieren */
+.placeholder {
+  padding: 0.05em 0.35em;
+  border: 1px dashed #e0b057;
+  border-radius: 3px;
+  background: rgb(224 176 87 / 0.12);
+  color: #f2cf8a;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.note-box {
+  padding: var(--space-md) var(--space-lg);
+  border: 1px solid var(--color-line);
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-bg-raised);
+  color: var(--color-text-soft);
+  font-size: var(--text-sm);
+}
+
+/* ---------- Scroll-Reveal ---------- */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js-reveal [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Spotlight-Rahmen (folgt dem Mauszeiger, siehe Effects.astro) ---------- */
+.spot {
+  position: relative;
+}
+
+.spot::before,
+.spot::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--duration-base) ease;
+}
+
+/* Leuchtender Rand */
+.spot::after {
+  inset: -1px;
+  padding: 1px;
+  background: radial-gradient(18rem circle at var(--mx, 50%) var(--my, 50%), rgb(200 241 105 / 0.7), transparent 65%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+}
+
+/* Schwaches Licht auf der Fläche */
+.spot::before {
+  inset: 0;
+  background: radial-gradient(22rem circle at var(--mx, 50%) var(--my, 50%), rgb(200 241 105 / 0.06), transparent 70%);
+}
+
+.spot.is-lit::before,
+.spot.is-lit::after {
+  opacity: 1;
+}
+
+.spot > * {
+  position: relative;
+}

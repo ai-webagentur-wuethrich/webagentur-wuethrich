@@ -1,0 +1,50 @@
+---
+import { ArrowRight } from '@lucide/astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { site, telHref } from '@/config/site';
+---
+
+<BaseLayout title="Anfrage nicht gesendet" description="Ihre Anfrage konnte nicht gesendet werden." noindex>
+  <section class="section status-page grid-bg">
+    <div class="container status-page__inner">
+      <p class="eyebrow">Nicht gesendet</p>
+      <h1 class="status-page__title">Das hat leider <em>nicht geklappt.</em></h1>
+      <p class="lead">
+        Bitte prüfen Sie Ihre Angaben (Name, gültige E-Mail-Adresse, Nachricht mit mindestens 10 Zeichen) und versuchen Sie es erneut – oder rufen Sie mich direkt an:
+        <a href={telHref}>{site.contact.phone}</a>.
+      </p>
+      <a href="/#kontakt" class="btn">Zurück zum Formular <ArrowRight size={18} aria-hidden="true" /></a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .status-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    padding-top: calc(var(--header-height) + var(--space-2xl));
+  }
+
+  .status-page__inner {
+    display: grid;
+    gap: var(--space-lg);
+    justify-items: start;
+  }
+
+  .status-page__title {
+    max-width: 18ch;
+    font-size: clamp(2.2rem, 1.6rem + 3vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .status-page__title em {
+    font-style: normal;
+    color: var(--color-accent);
+  }
+
+  .lead a {
+    color: var(--color-text);
+  }
+</style>

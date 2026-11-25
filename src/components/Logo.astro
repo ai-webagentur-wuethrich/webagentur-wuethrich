@@ -1,0 +1,86 @@
+---
+/**
+ * Logo: Wortmarke «wüthrich» – die Umlaut-Punkte sind zwei Pixel im Akzentton,
+ * dahinter ein Eingabe-Cursor. Darunter «webagentur» in Mono-Schrift.
+ * Der Name wird für Screenreader separat ausgegeben.
+ */
+---
+
+<span class="logo">
+  <span class="visually-hidden">Webagentur Wüthrich</span>
+  <span class="logo__mark" aria-hidden="true">
+    <span class="logo__word">w<span class="logo__u">u</span>thrich<span class="logo__cursor"></span></span>
+    <span class="logo__label">webagentur</span>
+  </span>
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    line-height: 1;
+  }
+
+  .logo__mark {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .logo__word {
+    position: relative;
+    display: inline-flex;
+    align-items: baseline;
+    font-size: 1.625rem;
+    font-weight: 650;
+    letter-spacing: -0.055em;
+    color: var(--color-text);
+  }
+
+  /* «u» mit zwei Pixeln statt Umlaut-Punkten */
+  .logo__u {
+    position: relative;
+  }
+
+  .logo__u::before,
+  .logo__u::after {
+    content: '';
+    position: absolute;
+    top: -0.1em;
+    width: 0.19em;
+    height: 0.19em;
+    background: var(--color-accent);
+    border-radius: 0.02em;
+  }
+
+  .logo__u::before {
+    left: 0.05em;
+  }
+
+  .logo__u::after {
+    right: 0.07em;
+  }
+
+  .logo__cursor {
+    display: inline-block;
+    width: 0.1em;
+    height: 0.78em;
+    margin-left: 0.1em;
+    background: var(--color-accent);
+    transform: translateY(0.06em);
+    animation: logo-blink 1.1s steps(1) 4 both;
+  }
+
+  @keyframes logo-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .logo__label {
+    padding-left: 0.08rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+  }
+</style>

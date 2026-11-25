@@ -1,0 +1,160 @@
+---
+/**
+ * Live-Messwerte dieser Seite – im Browser des Besuchers gemessen
+ * (Navigation Timing / Resource Timing API). Keine erfundenen Zahlen:
+ * Ohne JavaScript oder ohne Messdaten bleibt «–» stehen.
+ */
+---
+
+<aside class="metrics" aria-labelledby="metrics-title" data-metrics>
+  <header class="metrics__head">
+    <p id="metrics-title" class="metrics__title mono">Diese Seite · live gemessen</p>
+    <span class="metrics__dot" aria-hidden="true"></span>
+  </header>
+  <dl class="metrics__list">
+    <div class="metrics__row">
+      <dt>Ladezeit</dt>
+      <dd><span data-metric="load">–</span></dd>
+    </div>
+    <div class="metrics__row">
+      <dt>Datenmenge</dt>
+      <dd><span data-metric="size">–</span></dd>
+    </div>
+    <div class="metrics__row">
+      <dt>Dateien</dt>
+      <dd><span data-metric="requests">–</span></dd>
+    </div>
+    <div class="metrics__row">
+      <dt>Cookies</dt>
+      <dd><span data-metric="cookies">–</span></dd>
+    </div>
+  </dl>
+  <p class="metrics__note mono">Gemessen in Ihrem Browser – nicht geschönt.</p>
+</aside>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-metrics]');
+
+  const set = (name: string, value: string) => {
+    const el = root?.querySelector<HTMLElement>(`[data-metric="${name}"]`);
+    if (el) el.textContent = value;
+  };
+
+  const measure = () => {
+    if (!root || !('performance' in window)) return;
+    const [nav] = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
+    if (!nav) return;
+    const resources = performance.getEntriesByType('resource') as PerformanceResourceTiming[];
+    const end = nav.loadEventEnd || nav.domContentLoadedEventEnd;
+    const load = (end - nav.startTime) / 1000;
+
+    let transferred = nav.transferSize;
+    let encoded = nav.encodedBodySize;
+    for (const r of resources) {
+      transferred += r.transferSize;
+      encoded += r.encodedBodySize;
+    }
+    // Aus dem Zwischenspeicher geladen → übertragene Menge 0; dann Dateigrösse zeigen.
+    const bytes = transferred > 0 ? transferred : encoded;
+
+    const fmt = new Intl.NumberFormat('de-CH', { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+    if (load > 0) set('load', `${fmt.format(load)} s`);
+    if (bytes > 0) set('size', `${Math.round(bytes / 1024)} kB${transferred > 0 ? '' : ' (Cache)'}`);
+    set('requests', String(resources.length + 1));
+    set('cookies', String(document.cookie ? document.cookie.split(';').length : 0));
+    root.classList.add('is-measured');
+  };
+
+  if (document.readyState === 'complete') {
+    setTimeout(measure, 0);
+  } else {
+    window.addEventListener('load', () => setTimeout(measure, 0), { once: true });
+  }
+</script>
+
+<style>
+  .metrics {
+    width: 100%;
+    max-width: 20rem;
+    padding: 1.1rem 1.25rem 1rem;
+    border: 1px solid rgb(255 255 255 / 0.12);
+    border-radius: var(--radius-md);
+    background: rgb(10 12 16 / 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-size: var(--text-xs);
+  }
+
+  .metrics__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  .metrics__title {
+    font-size: var(--text-2xs);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-soft);
+  }
+
+  .metrics__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-text-faint);
+    transition: background-color var(--duration-base) ease;
+  }
+
+  .is-measured .metrics__dot {
+    background: var(--color-accent);
+    box-shadow: 0 0 0 0 rgb(200 241 105 / 0.6);
+    animation: pulse 2.4s ease-out infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgb(200 241 105 / 0.5);
+    }
+    70%,
+    100% {
+      box-shadow: 0 0 0 0.5rem rgb(200 241 105 / 0);
+    }
+  }
+
+  .metrics__list {
+    display: grid;
+    margin: 0.4rem 0 0;
+  }
+
+  .metrics__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.45rem;
+    border-bottom: 1px dashed rgb(255 255 255 / 0.08);
+  }
+
+  .metrics__row dt {
+    color: var(--color-text-soft);
+  }
+
+  .metrics__row dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+
+  .is-measured .metrics__row dd span {
+    animation: fade-in 500ms ease both;
+  }
+
+  .metrics__note {
+    margin-top: 0.75rem;
+    font-size: 0.6875rem;
+    color: var(--color-text-faint);
+  }
+</style>

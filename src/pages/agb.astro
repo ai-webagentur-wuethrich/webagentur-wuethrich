@@ -1,0 +1,136 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHeader from '@/components/PageHeader.astro';
+import { site } from '@/config/site';
+
+const { contact } = site;
+const agentur = `${site.name}, ${site.owner}, ${contact.street}, ${contact.postalCode} ${contact.city}`;
+---
+
+<BaseLayout
+  title="AGB – Allgemeine Geschäftsbedingungen"
+  description="Allgemeine Geschäftsbedingungen der Webagentur Wüthrich für die Erstellung von Websites sowie Hosting- und Betreuungspakete."
+>
+  <PageHeader
+    eyebrow="Rechtliches"
+    title="Allgemeine Geschäfts&shy;bedingungen"
+    lead="Kurz und verständlich gehalten; gilt für alle Offerten der Webagentur Wüthrich."
+  />
+
+  <section class="section">
+    <div class="container prose agb">
+      <h2><span class="agb__nr mono">01</span> Geltung</h2>
+      <p>
+        Diese AGB gelten für die Erstellung von Websites und für Hosting- und Betreuungspakete der
+        {agentur} («Agentur»). Abweichungen gelten nur, wenn sie schriftlich vereinbart sind.
+      </p>
+
+      <h2><span class="agb__nr mono">02</span> Leistungsumfang</h2>
+      <p>
+        Der Umfang ergibt sich aus der unterzeichneten Offerte. Die Agentur setzt die Website nach
+        aktuellen Standards für Sicherheit, Geschwindigkeit, Darstellung auf Mobilgeräten und
+        Suchmaschinen um. Bestimmte Ergebnisse wie Platzierungen bei Google, Anzahl Anfragen oder
+        Umsatz können nicht garantiert werden. Zwei Korrekturrunden sind inbegriffen; weitere
+        Änderungen werden nach Aufwand verrechnet.
+      </p>
+
+      <h2><span class="agb__nr mono">03</span> Mitwirkung des Kunden</h2>
+      <p>
+        Der Kunde liefert Angaben, Logo, Fotos und Texte rechtzeitig und gibt Entwürfe innert
+        10 Tagen frei oder meldet Korrekturen. Er bestätigt, dass er an gelieferten Inhalten die
+        nötigen Rechte besitzt. Verzögert sich das Projekt durch fehlende Mitwirkung um mehr als
+        60 Tage, kann die Agentur die bisher erbrachten Leistungen verrechnen.
+      </p>
+
+      <h2><span class="agb__nr mono">04</span> Preise und Zahlung</h2>
+      <p>
+        Alle Preise in CHF; die Agentur ist nicht MWST-pflichtig. 50 % des einmaligen Preises sind
+        bei Auftrag fällig, 50 % nach Fertigstellung vor der Veröffentlichung. Zahlungsfrist
+        10 Tage. Die Arbeit beginnt nach Eingang der Anzahlung; die Veröffentlichung erfolgt nach
+        Eingang der Schlusszahlung.
+      </p>
+
+      <h2><span class="agb__nr mono">05</span> Rechte an der Website</h2>
+      <p>
+        Nach vollständiger Bezahlung gehört die Website dem Kunden mit allen Nutzungsrechten. Für
+        lizenzierte Bilder und Schriften gelten die jeweiligen Lizenzen. Die Domain wird auf den
+        Namen des Kunden registriert; die Agentur verwaltet sie technisch. Die Agentur darf die
+        Website als Referenz zeigen, sofern der Kunde dem nicht widerspricht; bei Referenzrabatt
+        ist die Nennung vereinbart.
+      </p>
+
+      <h2><span class="agb__nr mono">06</span> Hosting und Betreuung</h2>
+      <p>
+        Das gewählte Paket beginnt mit der Veröffentlichung und wird monatlich oder jährlich im
+        Voraus verrechnet (bei Jahreszahlung ist ein Monat gratis). Hosting umfasst Betrieb,
+        Domain, SSL-Verschlüsselung und automatische Backups. Betreuung umfasst zusätzlich bis
+        30 Minuten Änderungen pro Monat (nicht übertragbar). Weitere Änderungen: pauschal CHF 25
+        bis 15 Minuten, sonst CHF 80 pro Stunde in 15-Minuten-Schritten; ab einer Stunde vorgängig
+        Kostenvoranschlag. Die Agentur strebt eine hohe Verfügbarkeit an, ist für Ausfälle des
+        Hosting-Anbieters aber nicht verantwortlich.
+      </p>
+
+      <h2><span class="agb__nr mono">07</span> Kündigung</h2>
+      <p>
+        Hosting und Betreuung sind jederzeit mit einer Frist von einem Monat auf Monatsende
+        kündbar. Bereits bezahlte Jahresgebühren werden nicht zurückerstattet. Bei Beendigung
+        erhält der Kunde die Website-Dateien kostenlos; die Domain bleibt beim Kunden.
+      </p>
+
+      <h2><span class="agb__nr mono">08</span> Rechtliche Inhalte</h2>
+      <p>
+        Impressum und Datenschutzerklärung erstellt die Agentur als Vorlage nach bestem Wissen. Für
+        die Richtigkeit der Angaben und die Rechtmässigkeit der Inhalte ist der Kunde
+        verantwortlich. Dies ist keine Rechtsberatung; bei Bedarf empfiehlt die Agentur eine
+        Fachperson. Übersetzungen werden maschinell unterstützt erstellt und vom Kunden geprüft.
+      </p>
+
+      <h2><span class="agb__nr mono">09</span> Datenschutz</h2>
+      <p>
+        Soweit die Agentur im Rahmen von Hosting und Betreuung Personendaten bearbeitet (z. B.
+        Nachrichten aus dem Kontaktformular), tut sie dies nur im Auftrag und nach Weisung des
+        Kunden, vertraulich und gemäss dem Schweizer Datenschutzgesetz (DSG). Der Kunde ist mit dem
+        Einsatz des Hosting-Anbieters Hostinger (Serverstandort:
+        <span class="placeholder">[Serverstandort]</span>) einverstanden.
+      </p>
+
+      <h2><span class="agb__nr mono">10</span> Gewährleistung und Haftung</h2>
+      <p>
+        Fehler, die innert 30 Tagen nach Veröffentlichung gemeldet werden, behebt die Agentur
+        kostenlos. Die Haftung ist, soweit gesetzlich zulässig, auf Vorsatz und grobe Fahrlässigkeit
+        beschränkt und höchstens auf den bezahlten Auftragswert begrenzt.
+      </p>
+
+      <h2><span class="agb__nr mono">11</span> Recht und Gerichtsstand</h2>
+      <p>Es gilt Schweizer Recht. Gerichtsstand ist {contact.city}.</p>
+
+      <p class="agb__date mono">Stand: November 2026</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .agb h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+  }
+
+  .agb h2:first-child {
+    margin-top: 0;
+  }
+
+  .agb__nr {
+    font-size: var(--text-xs);
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  .agb__date {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-line);
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
+</style>

@@ -1,0 +1,380 @@
+---
+/**
+ * Kontaktformular.
+ * Versand über das PHP-Skript /kontakt-senden.php (wird beim Build aus
+ * src/pages/kontakt-senden.php.ts erzeugt und läuft auf dem Hostinger-Webspace).
+ * Prüfung im Browser (Komfort) UND auf dem Server (Sicherheit).
+ * Ohne JavaScript funktioniert das Formular als normales POST-Formular.
+ */
+import { ArrowRight, Phone } from '@lucide/astro';
+import { site, telHref } from '@/config/site';
+import { packages, chf } from '@/config/pricing';
+
+/** Formular erst aktiv, wenn eine Empfänger-Adresse hinterlegt ist. */
+const active = Boolean(site.contact.email);
+---
+
+<form
+  class="form"
+  method="post"
+  action={site.form.endpoint}
+  data-contact-form
+  novalidate
+  aria-describedby={active ? undefined : 'form-inactive'}
+>
+  {
+    !active && (
+      <p class="note-box form__inactive" id="form-inactive">
+        Das Formular wird in Kürze aktiviert. Bis dahin erreichen Sie mich am schnellsten per
+        Telefon: <a href={telHref}>{site.contact.phone}</a>
+      </p>
+    )
+  }
+
+  <fieldset class="form__fieldset" disabled={!active}>
+    <legend class="visually-hidden">Ihre Anfrage</legend>
+
+    <div class="form__row">
+      <div class="field">
+        <label for="name">Name <span class="field__req" aria-hidden="true">*</span></label>
+        <input id="name" name="name" type="text" autocomplete="name" required maxlength="120" aria-describedby="name-error" />
+        <p class="field__error" id="name-error"></p>
+      </div>
+      <div class="field">
+        <label for="company">Firma <span class="field__optional">(optional)</span></label>
+        <input id="company" name="company" type="text" autocomplete="organization" maxlength="120" />
+      </div>
+    </div>
+
+    <div class="form__row">
+      <div class="field">
+        <label for="email">E-Mail <span class="field__req" aria-hidden="true">*</span></label>
+        <input id="email" name="email" type="email" autocomplete="email" required maxlength="160" aria-describedby="email-error" />
+        <p class="field__error" id="email-error"></p>
+      </div>
+      <div class="field">
+        <label for="phone">Telefon <span class="field__optional">(optional)</span></label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="topic">Interesse</label>
+      <select id="topic" name="topic" data-topic>
+        <option value="Noch unklar – Beratung gewünscht">Noch unklar – Beratung</option>
+        {
+          packages.map((pkg) => (
+            <option value={`Website ${pkg.name}`} data-package={pkg.id}>
+              Website {pkg.name} (CHF {chf(pkg.price)})
+            </option>
+          ))
+        }
+        <option value="Hosting / Betreuung">Hosting / Betreuung</option>
+        <option value="Änderung an bestehender Website">Änderung an bestehender Website</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="message">Ihre Nachricht <span class="field__req" aria-hidden="true">*</span></label>
+      <textarea
+        id="message"
+        name="message"
+        rows="6"
+        required
+        minlength="10"
+        maxlength="4000"
+        aria-describedby="message-hint message-error"
+      ></textarea>
+      <p class="field__hint" id="message-hint">
+        Zum Beispiel: Branche, gewünschte Seiten, bestehende Website, Zeitrahmen.
+      </p>
+      <p class="field__error" id="message-error"></p>
+    </div>
+
+    <!-- Spamschutz: für Menschen unsichtbares Feld (Honeypot) und Zeitstempel -->
+    <div class="form__hp" aria-hidden="true">
+      <label for="website">Website</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+    <input type="hidden" name="ts" value="" data-ts />
+
+    <p class="form__privacy">
+      Ihre Angaben verwende ich ausschliesslich zur Bearbeitung Ihrer Anfrage. Mehr dazu in der
+      <a href="/datenschutz/">Datenschutzerklärung</a>. Felder mit * sind Pflichtfelder.
+    </p>
+
+    <div class="form__submit">
+      <button type="submit" class="btn btn--lg" data-submit>
+        <span data-submit-label>Anfrage senden</span>
+        <ArrowRight size={18} aria-hidden="true" />
+      </button>
+      <a href={telHref} class="form__alt">
+        <Phone size={16} aria-hidden="true" /> lieber anrufen
+      </a>
+    </div>
+
+    <p class="form__status" role="status" aria-live="polite" data-form-status hidden></p>
+  </fieldset>
+</form>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  const status = form?.querySelector<HTMLElement>('[data-form-status]');
+  const submit = form?.querySelector<HTMLButtonElement>('[data-submit]');
+  const submitLabel = form?.querySelector<HTMLElement>('[data-submit-label]');
+
+  // Zeitstempel für den Spamschutz (Bots senden meist sofort ab)
+  const ts = form?.querySelector<HTMLInputElement>('[data-ts]');
+  if (ts) ts.value = String(Date.now());
+
+  // Klick auf «Paket anfragen» wählt das Paket im Formular vor.
+  document.querySelectorAll<HTMLElement>('[data-select-package]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const id = link.dataset.selectPackage ?? '';
+      const option = form?.querySelector<HTMLOptionElement>(`option[data-package="${CSS.escape(id)}"]`);
+      if (option) option.selected = true;
+    });
+  });
+
+  const messages: Record<string, string> = {
+    name: 'Bitte geben Sie Ihren Namen ein.',
+    email: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+    message: 'Bitte beschreiben Sie Ihr Anliegen kurz (mindestens 10 Zeichen).',
+  };
+
+  const validateField = (field: HTMLInputElement | HTMLTextAreaElement) => {
+    const error = form?.querySelector<HTMLElement>(`#${field.id}-error`);
+    const valid = field.checkValidity();
+    if (error) error.textContent = valid ? '' : (messages[field.name] ?? 'Bitte prüfen Sie dieses Feld.');
+    field.setAttribute('aria-invalid', String(!valid));
+    return valid;
+  };
+
+  const fields = form
+    ? Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[required]'))
+    : [];
+
+  fields.forEach((field) => {
+    field.addEventListener('blur', () => {
+      if (field.value) validateField(field);
+    });
+    field.addEventListener('input', () => {
+      if (field.getAttribute('aria-invalid') === 'true') validateField(field);
+    });
+  });
+
+  const showStatus = (text: string, ok: boolean) => {
+    if (!status) return;
+    status.hidden = false;
+    status.textContent = text;
+    status.classList.toggle('is-error', !ok);
+  };
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const results = fields.map(validateField);
+    const firstInvalid = fields[results.indexOf(false)];
+    if (firstInvalid) {
+      firstInvalid.focus();
+      return;
+    }
+
+    if (submit) submit.disabled = true;
+    if (submitLabel) submitLabel.textContent = 'Wird gesendet …';
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      const data = (await response.json().catch(() => null)) as { ok: boolean; message: string } | null;
+      if (response.ok && data?.ok) {
+        form.reset();
+        window.location.assign('/danke/');
+        return;
+      }
+      showStatus(
+        data?.message ?? 'Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut oder rufen Sie an.',
+        false,
+      );
+    } catch {
+      showStatus('Die Verbindung ist fehlgeschlagen. Bitte versuchen Sie es erneut oder rufen Sie an.', false);
+    }
+
+    if (submit) submit.disabled = false;
+    if (submitLabel) submitLabel.textContent = 'Anfrage senden';
+  });
+</script>
+
+<style>
+  .form {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  .form__fieldset {
+    display: grid;
+    gap: var(--space-lg);
+    min-width: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .form__fieldset:disabled {
+    opacity: 0.55;
+  }
+
+  .form__inactive a {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .form__row {
+    display: grid;
+    gap: var(--space-lg);
+  }
+
+  @media (min-width: 40rem) {
+    .form__row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .field {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  label {
+    font-size: var(--text-sm);
+    font-weight: 560;
+  }
+
+  .field__req {
+    color: var(--color-accent);
+  }
+
+  .field__optional,
+  .field__hint {
+    font-weight: 400;
+    color: var(--color-text-faint);
+    font-size: var(--text-xs);
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    min-height: 3.125rem;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    font-size: 1rem; /* verhindert Auto-Zoom auf iOS */
+    transition:
+      border-color var(--duration-fast) ease,
+      box-shadow var(--duration-fast) ease;
+  }
+
+  select {
+    appearance: none;
+    padding-right: 2.5rem;
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-text-soft) 50%),
+      linear-gradient(135deg, var(--color-text-soft) 50%, transparent 50%);
+    background-position:
+      calc(100% - 1.15rem) 55%,
+      calc(100% - 0.8rem) 55%;
+    background-size: 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 9rem;
+  }
+
+  input:hover,
+  select:hover,
+  textarea:hover {
+    border-color: var(--color-text-faint);
+  }
+
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgb(200 241 105 / 0.2);
+  }
+
+  [aria-invalid='true'] {
+    border-color: var(--color-error);
+  }
+
+  .field__error {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-error);
+  }
+
+  .field__error:empty {
+    display: none;
+  }
+
+  .form__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form__privacy {
+    font-size: var(--text-xs);
+    color: var(--color-text-soft);
+  }
+
+  .form__privacy a {
+    color: var(--color-text);
+  }
+
+  .form__submit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-md) var(--space-lg);
+  }
+
+  .form__alt {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.75rem;
+    font-size: var(--text-sm);
+    color: var(--color-text-soft);
+    text-decoration: none;
+  }
+
+  .form__alt:hover {
+    color: var(--color-accent);
+  }
+
+  .form__status {
+    padding: var(--space-md);
+    border-left: 3px solid var(--color-accent);
+    background: var(--color-bg-elev);
+    font-size: var(--text-sm);
+    font-weight: 500;
+  }
+
+  .form__status.is-error {
+    border-left-color: var(--color-error);
+  }
+
+  @media (max-width: 29.99rem) {
+    .form__submit .btn {
+      width: 100%;
+    }
+  }
+</style>

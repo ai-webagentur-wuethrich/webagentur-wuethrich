@@ -1,0 +1,16 @@
+---
+/**
+ * E-Mail-Adresse als Link – oder ein markierter Platzhalter, solange keine
+ * Adresse in src/config/site.ts hinterlegt ist.
+ */
+import { site } from '@/config/site';
+const { email } = site.contact;
+---
+
+{
+  email ? (
+    <a href={`mailto:${email}`}>{email}</a>
+  ) : (
+    <span class="placeholder">[E-Mail-Adresse folgt]</span>
+  )
+}

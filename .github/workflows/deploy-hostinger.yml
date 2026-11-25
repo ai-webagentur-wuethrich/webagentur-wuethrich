@@ -1,0 +1,51 @@
+# Baut die Website bei jeder Änderung auf «main» und legt die fertigen
+# Dateien (Inhalt von dist/) in den Zweig «hostinger».
+# Auf Hostinger wird dieser Zweig per Git-Deployment nach public_html geladen.
+name: Build für Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-hostinger
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Code holen
+        uses: actions/checkout@v4
+
+      - name: Node.js einrichten
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Abhängigkeiten installieren
+        run: npm ci
+
+      - name: Website bauen
+        run: npm run build
+        env:
+          # Optional: unter Settings → Secrets and variables → Actions → Variables
+          # eine Variable SITE_URL mit der echten Domain anlegen.
+          SITE_URL: ${{ vars.SITE_URL }}
+
+      - name: Fertige Dateien in Zweig «hostinger» veröffentlichen
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: hostinger
+          publish_dir: ./dist
+          force_orphan: true
+          enable_jekyll: true
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          commit_message: 'Build für Hostinger'
