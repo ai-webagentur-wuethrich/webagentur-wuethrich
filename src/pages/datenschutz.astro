@@ -10,6 +10,7 @@ const { contact, hosting } = site;
 <BaseLayout
   title="Datenschutzerklärung"
   description="Datenschutzerklärung der Webagentur Wüthrich: welche Daten beim Besuch dieser Website und bei einer Kontaktaufnahme bearbeitet werden."
+  noindex
 >
   <PageHeader
     eyebrow="Rechtliches"
@@ -28,9 +29,9 @@ const { contact, hosting } = site;
       <h2>1. Verantwortliche Stelle</h2>
       <p>
         {site.name}, {site.owner}<br />
-        {contact.street}, {contact.postalCode} {contact.city}, {contact.countryName}<br />
         Telefon: <a href={telHref}>{contact.phone}</a><br />
-        E-Mail: <EmailLink />
+        E-Mail: <EmailLink /><br />
+        Postadresse: siehe <a href="/impressum/">Impressum</a>
       </p>
 
       <h2>2. Aufruf der Website (Server-Logfiles)</h2>

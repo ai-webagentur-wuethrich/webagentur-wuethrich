@@ -63,7 +63,7 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
 ---
 
 <BaseLayout
-  title="Webagentur Wüthrich – Websites für Schweizer KMU | Riehen, Basel"
+  title="Webagentur Wüthrich | Webdesign für KMU in Basel & der Schweiz"
   description={site.description}
   schema={schema}
 >
@@ -96,8 +96,8 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
           Websites, die <em>schnell laden</em> und gefunden werden.
         </h1>
         <p class="lead hero__lead">
-          Individuell gestaltet, sauber programmiert und für Google optimiert – zum Fixpreis ab
-          CHF 790.
+          Für KMU in Basel und der ganzen Deutschschweiz: individuell gestaltet, sauber
+          programmiert und für Google optimiert – ab CHF 790.
         </p>
         <div class="hero__actions">
           <a href="#kontakt" class="btn btn--lg">
@@ -105,6 +105,11 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
           </a>
           <a href="#preise" class="btn btn--ghost btn--lg">Preise ansehen</a>
         </div>
+        <a href="#preise" class="hero__promo">
+          <span class="hero__promo-tag mono">−{referenceDiscount}%</span>
+          Referenzrabatt für die ersten Kundinnen und Kunden
+          <ArrowRight size={14} aria-hidden="true" />
+        </a>
       </div>
 
       <div class="hero__aside">
@@ -167,11 +172,19 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
           <p class="eyebrow"><span data-scramble>Preise</span></p>
           <h2 id="preise-title" class="h2 head-gap">Fixpreise statt Stundenrapport.</h2>
         </div>
-        <div class="preise-head__text">
-          <p class="lead">Einmalig, in CHF, nicht MWST-pflichtig.</p>
-          <p class="preise-head__ref mono">
-            <span class="preise-head__ref-tag">−{referenceDiscount} %</span>
-            <span>für die ersten Kundinnen und Kunden</span>
+        <p class="lead">Einmalig, in CHF, nicht MWST-pflichtig.</p>
+      </div>
+
+      <div class="promo spot" data-spotlight data-reveal>
+        <span class="promo__badge" aria-hidden="true">−{referenceDiscount}%</span>
+        <div class="promo__text">
+          <p class="promo__title">
+            <span class="visually-hidden">{referenceDiscount} % </span>Referenzrabatt für die ersten
+            Kundinnen und Kunden
+          </p>
+          <p class="promo__sub">
+            Auf alle Website-Pakete – im Gegenzug darf ich Ihre Website als Referenz zeigen. Nur für
+            wenige Projekte.
           </p>
         </div>
       </div>
@@ -421,7 +434,7 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
     z-index: -2;
     background: radial-gradient(
       var(--spot-size, 26rem) circle at var(--mx, 70%) var(--my, 40%),
-      rgb(200 241 105 / var(--spot-alpha, 0.2)),
+      rgb(var(--accent-rgb) / var(--spot-alpha, 0.2)),
       transparent 70%
     );
     mix-blend-mode: color-dodge;
@@ -443,8 +456,8 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
     background: linear-gradient(
       90deg,
       transparent,
-      rgb(200 241 105 / 0.07) 85%,
-      rgb(200 241 105 / 0.45) 99.5%,
+      rgb(var(--accent-rgb) / 0.07) 85%,
+      rgb(var(--accent-rgb) / 0.45) 99.5%,
       transparent
     );
     transform: translateX(-100%);
@@ -760,26 +773,100 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
   }
 
   /* ---------- Preise ---------- */
-  .preise-head__text {
-    display: grid;
-    gap: var(--space-md);
-  }
-
-  .preise-head__ref {
+  /* Referenzrabatt – gut sichtbar über den Paketen */
+  .promo {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    font-size: var(--text-xs);
+    gap: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    padding: var(--space-lg) clamp(1.25rem, 1rem + 1vw, 2rem);
+    border: 1px solid rgb(var(--accent-rgb) / 0.5);
+    border-radius: var(--radius-md);
+    background:
+      linear-gradient(90deg, rgb(var(--accent-rgb) / 0.14), rgb(var(--accent-rgb) / 0.03) 70%),
+      var(--color-bg-raised);
+  }
+
+  .promo__badge {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    min-width: 4.75rem;
+    height: 4.75rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-size: 1.5rem;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    animation: promo-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes promo-pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgb(var(--accent-rgb) / 0.45);
+    }
+    50% {
+      box-shadow: 0 0 0 0.6rem rgb(var(--accent-rgb) / 0);
+    }
+  }
+
+  .promo__text {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .promo__title {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+
+  .promo__sub {
+    font-size: var(--text-sm);
     color: var(--color-text-soft);
   }
 
-  .preise-head__ref-tag {
-    flex-shrink: 0;
-    white-space: nowrap;
-    padding: 0.15rem 0.5rem;
-    border: 1px solid var(--color-accent);
+  @media (max-width: 29.99rem) {
+    .promo {
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
+
+    .promo__badge {
+      min-width: 3.5rem;
+      height: 3.5rem;
+      font-size: 1.1rem;
+    }
+  }
+
+  /* Hinweis im Startbereich */
+  .hero__promo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    justify-self: start;
+    min-height: 2.75rem;
+    font-size: var(--text-sm);
+    color: var(--color-text-soft);
+    text-decoration: none;
+    animation: fade-up 1100ms var(--ease-out) both 650ms;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .hero__promo:hover {
+    color: var(--color-text);
+  }
+
+  .hero__promo-tag {
+    padding: 0.2rem 0.55rem;
     border-radius: 2rem;
-    color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-size: var(--text-xs);
+    font-weight: 600;
   }
 
   .price-grid {
@@ -873,7 +960,7 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
   }
 
   .plan--featured {
-    border-color: rgb(200 241 105 / 0.45);
+    border-color: rgb(var(--accent-rgb) / 0.45);
   }
 
   .plan__name {
@@ -1106,7 +1193,7 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
   /* ---------- Kontakt ---------- */
   .contact-section {
     background:
-      radial-gradient(60rem 30rem at 15% 100%, rgb(200 241 105 / 0.07), transparent 70%),
+      radial-gradient(60rem 30rem at 15% 100%, rgb(var(--accent-rgb) / 0.07), transparent 70%),
       var(--color-bg);
   }
 

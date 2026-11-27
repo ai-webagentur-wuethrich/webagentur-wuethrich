@@ -12,8 +12,15 @@ export const site = {
   name: 'Webagentur Wüthrich',
   owner: 'Artur Wüthrich',
   tagline: 'Websites für Schweizer KMU',
+  /** Weitere Schreibweisen des Namens – damit Google die Marke auch so erkennt. */
+  alternateNames: ['Webagentur Wuethrich', 'Wüthrich Webagentur', 'Wuethrich Webdesign'],
+  /**
+   * Google Search Console: Bestätigungscode (nur der Wert von content="…").
+   * Leer = kein Meta-Tag.
+   */
+  googleSiteVerification: '',
   description:
-    'Webagentur Wüthrich in Riehen bei Basel: schnelle, sichere und für Google optimierte Websites für Schweizer KMU – zu transparenten Fixpreisen ab CHF 790.',
+    'Webagentur Wüthrich: individuelles Webdesign für KMU in Basel und der ganzen Deutschschweiz. Schnelle, sichere und für Google optimierte Websites – Fixpreise ab CHF 790.',
   locale: 'de_CH',
   lang: 'de-CH',
   /** false = echte Website: indexierbar, LocalBusiness-Schema aktiv, keine Demo-Hinweise. */

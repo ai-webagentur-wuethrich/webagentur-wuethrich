@@ -3,13 +3,14 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHeader from '@/components/PageHeader.astro';
 import { site } from '@/config/site';
 
-const { contact, hosting } = site;
-const agentur = `${site.name}, ${site.owner}, ${contact.street}, ${contact.postalCode} ${contact.city}`;
+const { hosting } = site;
+const agentur = `${site.name}, ${site.owner}`;
 ---
 
 <BaseLayout
   title="AGB – Allgemeine Geschäftsbedingungen"
   description="Allgemeine Geschäftsbedingungen der Webagentur Wüthrich für die Erstellung von Websites sowie Hosting- und Betreuungspakete."
+  noindex
 >
   <PageHeader
     eyebrow="Rechtliches"
@@ -22,7 +23,7 @@ const agentur = `${site.name}, ${site.owner}, ${contact.street}, ${contact.posta
       <h2><span class="agb__nr mono">01</span> Geltung</h2>
       <p>
         Diese AGB gelten für die Erstellung von Websites und für Hosting- und Betreuungspakete
-        der {agentur} («Agentur»). Abweichungen gelten nur, wenn sie schriftlich vereinbart sind.
+        der {agentur} («Agentur», Angaben gemäss <a href="/impressum/">Impressum</a>). Abweichungen gelten nur, wenn sie schriftlich vereinbart sind.
       </p>
 
       <h2><span class="agb__nr mono">02</span> Leistungsumfang</h2>
@@ -102,7 +103,7 @@ const agentur = `${site.name}, ${site.owner}, ${contact.street}, ${contact.posta
       </p>
 
       <h2><span class="agb__nr mono">11</span> Recht und Gerichtsstand</h2>
-      <p>Es gilt Schweizer Recht. Gerichtsstand ist {contact.city}.</p>
+      <p>Es gilt Schweizer Recht. Gerichtsstand ist der Sitz der Agentur.</p>
 
       <p class="agb__date mono">Stand: November 2026</p>
     </div>

@@ -18,8 +18,10 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
-      // Fehler- und Danke-Seite sowie das Formular-Skript gehören nicht in die Sitemap.
-      filter: (page) => !page.includes('/404') && !page.includes('/danke') && !page.includes('/fehler') && !page.endsWith('.php'),
+      // In die Sitemap gehört nur die Landingpage. Rechtliche Seiten sind «noindex»
+      // (Adresse nicht in den Google-Ergebnissen), Danke/Fehler/404 sowieso.
+      filter: (page) => new URL(page).pathname === '/',
+      lastmod: new Date(),
     }),
   ],
   // Schriften liegen lokal im Projekt (src/assets/fonts) und werden selbst

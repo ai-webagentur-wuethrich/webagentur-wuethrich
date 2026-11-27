@@ -17,6 +17,8 @@
   --color-text-soft: #b0bac6;
   --color-text-faint: #8d98a6;
   --color-accent: #c8f169;
+  /* Akzent als RGB-Werte für transparente Varianten: rgb(var(--accent-rgb) / 0.2) */
+  --accent-rgb: 200 241 105;
   --color-accent-hover: #d8fa8b;
   --color-on-accent: #131922;
   --color-error: #ff8a80;
@@ -627,7 +629,7 @@ main:focus {
 .spot::after {
   inset: -1px;
   padding: 1px;
-  background: radial-gradient(18rem circle at var(--mx, 50%) var(--my, 50%), rgb(200 241 105 / 0.7), transparent 65%);
+  background: radial-gradient(18rem circle at var(--mx, 50%) var(--my, 50%), rgb(var(--accent-rgb) / 0.7), transparent 65%);
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
     linear-gradient(#000 0 0);
@@ -640,7 +642,7 @@ main:focus {
 /* Schwaches Licht auf der Fläche */
 .spot::before {
   inset: 0;
-  background: radial-gradient(22rem circle at var(--mx, 50%) var(--my, 50%), rgb(200 241 105 / 0.06), transparent 70%);
+  background: radial-gradient(22rem circle at var(--mx, 50%) var(--my, 50%), rgb(var(--accent-rgb) / 0.06), transparent 70%);
 }
 
 .spot.is-lit::before,

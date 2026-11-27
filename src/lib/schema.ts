@@ -10,6 +10,8 @@ export function websiteSchema(siteUrl: URL | undefined) {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: site.name,
+    alternateName: site.alternateNames,
+    publisher: siteUrl ? { '@id': new URL('/#organisation', siteUrl).toString() } : undefined,
     url: siteUrl?.toString(),
     inLanguage: site.lang,
   };
@@ -25,16 +27,18 @@ export function businessSchema(siteUrl: URL | undefined) {
     '@type': 'ProfessionalService',
     '@id': siteUrl ? new URL('/#organisation', siteUrl).toString() : undefined,
     name: site.name,
+    alternateName: site.alternateNames,
     description: site.description,
     url: siteUrl?.toString(),
+    knowsAbout: ['Webdesign', 'Website-Erstellung', 'Suchmaschinenoptimierung (SEO)', 'Local SEO', 'Hosting'],
     logo: siteUrl ? new URL('/apple-touch-icon-v2.png', siteUrl).toString() : undefined,
     image: siteUrl ? new URL(site.defaultOgImage, siteUrl).toString() : undefined,
     founder: { '@type': 'Person', name: site.owner },
     telephone: contact.phone,
     ...(contact.email ? { email: contact.email } : {}),
+    // Ohne Strasse: Die vollständige Adresse steht nur im Impressum.
     address: {
       '@type': 'PostalAddress',
-      streetAddress: contact.street,
       postalCode: contact.postalCode,
       addressLocality: contact.city,
       addressRegion: contact.regionCode,

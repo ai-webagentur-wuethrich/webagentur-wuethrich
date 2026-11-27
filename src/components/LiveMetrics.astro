@@ -110,17 +110,17 @@
 
   .is-measured .metrics__dot {
     background: var(--color-accent);
-    box-shadow: 0 0 0 0 rgb(200 241 105 / 0.6);
+    box-shadow: 0 0 0 0 rgb(var(--accent-rgb) / 0.6);
     animation: pulse 2.4s ease-out infinite;
   }
 
   @keyframes pulse {
     0% {
-      box-shadow: 0 0 0 0 rgb(200 241 105 / 0.5);
+      box-shadow: 0 0 0 0 rgb(var(--accent-rgb) / 0.5);
     }
     70%,
     100% {
-      box-shadow: 0 0 0 0.5rem rgb(200 241 105 / 0);
+      box-shadow: 0 0 0 0.5rem rgb(var(--accent-rgb) / 0);
     }
   }
 
