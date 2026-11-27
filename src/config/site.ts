@@ -18,7 +18,7 @@ export const site = {
    * Google Search Console: Bestätigungscode (nur der Wert von content="…").
    * Leer = kein Meta-Tag.
    */
-  googleSiteVerification: '',
+  googleSiteVerification: 'kPkk-D_uROjvftpYK5hxaBrw-FNrmx9crMiP-KSIho8',
   description:
     'Webagentur Wüthrich: saubere, sichere und für Google optimierte Websites – individuell gestaltet, für Unternehmen in der ganzen Schweiz. Fixpreise ab CHF 790.',
   locale: 'de_CH',
