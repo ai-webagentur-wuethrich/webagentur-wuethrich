@@ -15,7 +15,7 @@ const year = new Date().getFullYear();
           <Logo />
         </a>
         <p class="site-footer__claim">
-          Schnelle, sichere und für Google optimierte Websites für Schweizer KMU.
+          Saubere, sichere und für Google optimierte Websites – für die ganze Schweiz.
         </p>
       </div>
 
@@ -56,7 +56,16 @@ const year = new Date().getFullYear();
     </div>
 
     <div class="site-footer__bottom">
-      <p class="mono">© {year} {site.name}</p>
+      <p class="mono site-footer__copy">
+        © {year} {site.name}
+        <span class="site-footer__swiss">
+          <svg viewBox="0 0 32 32" width="12" height="12" aria-hidden="true">
+            <rect width="32" height="32" rx="3" fill="#da291c"></rect>
+            <path d="M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z" fill="#fff"></path>
+          </svg>
+          Made in Switzerland
+        </span>
+      </p>
       <p class="mono site-footer__meta">
         <a href="#inhalt" class="site-footer__top-link">
           Nach oben <ArrowUpRight size={14} aria-hidden="true" />
@@ -146,6 +155,23 @@ const year = new Date().getFullYear();
     border-top: 1px solid var(--color-line);
     font-size: var(--text-2xs);
     color: var(--color-text-faint);
+  }
+
+  .site-footer__copy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 1rem;
+  }
+
+  .site-footer__swiss {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .site-footer__swiss svg {
+    flex-shrink: 0;
   }
 
   .site-footer__meta {

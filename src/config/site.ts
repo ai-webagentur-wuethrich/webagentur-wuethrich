@@ -11,7 +11,7 @@ export interface NavItem {
 export const site = {
   name: 'Webagentur Wüthrich',
   owner: 'Artur Wüthrich',
-  tagline: 'Websites für Schweizer KMU',
+  tagline: 'Websites für die ganze Schweiz',
   /** Weitere Schreibweisen des Namens – damit Google die Marke auch so erkennt. */
   alternateNames: ['Webagentur Wuethrich', 'Wüthrich Webagentur', 'Wuethrich Webdesign'],
   /**
@@ -20,7 +20,7 @@ export const site = {
    */
   googleSiteVerification: '',
   description:
-    'Webagentur Wüthrich: individuelles Webdesign für KMU in Basel und der ganzen Deutschschweiz. Schnelle, sichere und für Google optimierte Websites – Fixpreise ab CHF 790.',
+    'Webagentur Wüthrich: saubere, sichere und für Google optimierte Websites – individuell gestaltet, für Unternehmen in der ganzen Schweiz. Fixpreise ab CHF 790.',
   locale: 'de_CH',
   lang: 'de-CH',
   /** false = echte Website: indexierbar, LocalBusiness-Schema aktiv, keine Demo-Hinweise. */
