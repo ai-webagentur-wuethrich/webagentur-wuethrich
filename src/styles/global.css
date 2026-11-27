@@ -8,27 +8,29 @@
 /* ---------- Design-Tokens ---------- */
 :root {
   /* Farben (Kontraste WCAG AA geprüft, siehe README) */
-  --color-bg: #131922;
-  --color-bg-raised: #19202a;
-  --color-bg-elev: #1f2733;
-  --color-line: #2b3441;
-  --color-line-strong: #3f4a59;
+  --color-bg: #1e2126;
+  --color-bg-raised: #25292f;
+  --color-bg-elev: #2d3139;
+  --color-line: #3a3f48;
+  --color-line-strong: #4e545f;
+  /* Hintergrund als RGB-Werte für transparente Varianten */
+  --bg-rgb: 30 33 38;
   --color-text: #eef1f4;
   --color-text-soft: #b0bac6;
   --color-text-faint: #8d98a6;
-  --color-accent: #c8f169;
+  --color-accent: #86b8f2;
   /* Akzent als RGB-Werte für transparente Varianten: rgb(var(--accent-rgb) / 0.2) */
-  --accent-rgb: 200 241 105;
-  --color-accent-hover: #d8fa8b;
-  --color-on-accent: #131922;
+  --accent-rgb: 134 184 242;
+  --color-accent-hover: #a5cbf7;
+  --color-on-accent: #1e2126;
   --color-error: #ff8a80;
   /* Helle Flächen (sparsam eingesetzt) */
-  --color-paper: #f3f4f0;
+  --color-paper: #f4f3ef;
   --color-paper-raised: #ffffff;
-  --color-ink: #131922;
+  --color-ink: #1e2126;
   --color-ink-soft: #4a5562;
   --color-paper-line: #dadcd4;
-  --color-accent-ink: #3d5a00;
+  --color-accent-ink: #1f5596;
 
   /* Typografie (--font-sans / --font-mono werden von Astro Fonts gesetzt) */
   --text-2xs: 0.75rem;
@@ -414,8 +416,8 @@ main:focus {
 }
 
 .btn--dark:hover {
-  --btn-bg: #20262e;
-  --btn-border: #20262e;
+  --btn-bg: #2d3139;
+  --btn-border: #2d3139;
 }
 
 .btn--lg {

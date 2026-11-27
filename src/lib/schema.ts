@@ -31,7 +31,7 @@ export function businessSchema(siteUrl: URL | undefined) {
     description: site.description,
     url: siteUrl?.toString(),
     knowsAbout: ['Webdesign', 'Website-Erstellung', 'Suchmaschinenoptimierung (SEO)', 'Local SEO', 'Hosting'],
-    logo: siteUrl ? new URL('/apple-touch-icon-v2.png', siteUrl).toString() : undefined,
+    logo: siteUrl ? new URL('/apple-touch-icon-v3.png', siteUrl).toString() : undefined,
     image: siteUrl ? new URL(site.defaultOgImage, siteUrl).toString() : undefined,
     founder: { '@type': 'Person', name: site.owner },
     telephone: contact.phone,

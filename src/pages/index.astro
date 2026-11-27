@@ -315,11 +315,11 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
       <div class="about__text" data-reveal style="--reveal-delay: 100ms">
         <p class="eyebrow"><span data-scramble>Über mich</span></p>
         <h2 id="ueber-title" class="h2">
-          Faire Preise. <span class="accent">Persönlicher Service.</span>
+          Agentur-Qualität. <span class="accent">Ohne Agentur-Preise.</span>
         </h2>
         <p class="lead">
-          Bei mir haben Sie einen direkten Ansprechpartner. Jede Website wird sauber und sicher
-          aufgebaut, lädt schnell und wird bei Google gefunden.
+          Professionell umgesetzt, mit direktem Ansprechpartner und klarem Fixpreis. Jede Website
+          wird sauber und sicher aufgebaut, lädt schnell und wird bei Google gefunden.
         </p>
         <ul class="values" role="list">
           {values.map((value) => <li class="mono">{value}</li>)}
@@ -508,7 +508,7 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
     z-index: -1;
     background:
       linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 25% 100%,
-      linear-gradient(to bottom, rgb(19 25 34 / 0) 20%, rgb(19 25 34 / 0.55) 60%, rgb(19 25 34 / 0.8));
+      linear-gradient(to bottom, rgb(var(--bg-rgb) / 0) 20%, rgb(var(--bg-rgb) / 0.55) 60%, rgb(var(--bg-rgb) / 0.8));
   }
 
   .hero__inner {
@@ -608,8 +608,8 @@ const schema = [websiteSchema(Astro.site), businessSchema(Astro.site), offersSch
     .hero__grid {
       background:
         linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px) 0 0 / 25% 100%,
-        linear-gradient(to top, rgb(19 25 34 / 0.9), transparent 35%),
-        linear-gradient(to right, rgb(19 25 34 / 0.6), transparent 70%);
+        linear-gradient(to top, rgb(var(--bg-rgb) / 0.9), transparent 35%),
+        linear-gradient(to right, rgb(var(--bg-rgb) / 0.6), transparent 70%);
     }
 
     .hero__inner {

@@ -26,7 +26,7 @@ export const site = {
   /** false = echte Website: indexierbar, LocalBusiness-Schema aktiv, keine Demo-Hinweise. */
   isDemo: false,
   /** Neuer Dateiname bei jeder Änderung des Vorschaubilds (Zwischenspeicher von WhatsApp & Co.). */
-  defaultOgImage: '/og-webagentur-wuethrich-v2.jpg',
+  defaultOgImage: '/og-webagentur-wuethrich-v3.jpg',
   contact: {
     /**
      * Öffentliche E-Mail-Adresse, zugleich Empfänger des Kontaktformulars.
